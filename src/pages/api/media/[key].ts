@@ -17,8 +17,21 @@ function isPrivateVercelBlob(url: string) {
   return url.includes('private.blob.vercel-storage.com');
 }
 
+async function getBlobToken() {
+  const fromEnv = import.meta.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
+  if (fromEnv) return String(fromEnv);
+  try {
+    const rows = await sql<{ value: string }[]>`
+      SELECT value FROM app_config WHERE key = 'BLOB_READ_WRITE_TOKEN' LIMIT 1
+    `;
+    return rows[0]?.value || '';
+  } catch {
+    return '';
+  }
+}
+
 async function proxyPrivateBlob(url: string, request: Request) {
-  const token = import.meta.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
+  const token = await getBlobToken();
   if (!token) {
     return new Response('BLOB_READ_WRITE_TOKEN no configurado', { status: 500 });
   }
