@@ -73,7 +73,9 @@ export const GET: APIRoute = async ({ params, request }) => {
           'Content-Length': String(body.length),
           'Content-Range': `bytes ${range.start}-${range.start + body.length - 1}/${size}`,
           'Accept-Ranges': 'bytes',
-          'Cache-Control': 'public, max-age=86400'
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          'CDN-Cache-Control': 'public, max-age=31536000',
+          'Vercel-CDN-Cache-Control': 'public, max-age=31536000'
         }
       });
     }
