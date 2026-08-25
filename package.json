@@ -2,6 +2,9 @@
   "name": "agro-norte-corp",
   "type": "module",
   "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "node ./dist/server/entry.mjs",
