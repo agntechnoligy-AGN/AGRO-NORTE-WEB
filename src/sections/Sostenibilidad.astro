@@ -1,0 +1,124 @@
+---
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+const bgImage = images.farmAerial;
+
+const sustainabilityItems = [
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+    </svg>`,
+    title: 'Uso eficiente del agua',
+    desc: 'Sistemas de riego tecnificado que optimizan el recurso hídrico.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+    </svg>`,
+    title: 'Cuidado del suelo',
+    desc: 'Prácticas regenerativas para mantener la fertilidad natural.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L12 22M12 2C8 6 6 10 6 14C6 18 9 22 12 22M12 2C16 6 18 10 18 14C18 18 15 22 12 22M4 12C8 10 16 10 20 12"/>
+    </svg>`,
+    title: 'Manejo responsable',
+    desc: 'Cultivos gestionados bajo prácticas agrícolas sostenibles.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+    </svg>`,
+    title: 'Tecnología agrícola',
+    desc: 'Innovación y monitoreo digital para una producción precisa.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+    </svg>`,
+    title: 'Bienestar del equipo',
+    desc: 'Condiciones justas y desarrollo para nuestros colaboradores.'
+  }
+];
+
+const stats = [
+  { num: 1200, prefix: '+', suffix: ' ha', label: 'Área agrícola' },
+  { num: 2, prefix: '', suffix: '', label: 'Cultivos principales' },
+  { num: 450, prefix: '+', suffix: '', label: 'Trabajadores' },
+  { num: 15, prefix: '+', suffix: ' años', label: 'Experiencia' },
+  { num: 20, prefix: '+', suffix: '', label: 'Mercados internacionales' }
+];
+---
+
+<section id="sostenibilidad" class="relative overflow-hidden">
+  <div class="relative h-[70vh] min-h-[600px] flex items-center">
+    <div class="absolute inset-0" data-parallax="0.25">
+      <img src={bgImage} alt="Vista aérea fundo con reservorio de agua" class="w-full h-full object-cover" loading="lazy"/>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-navy-950/40"></div>
+    <div class="absolute inset-0 bg-grain mix-blend-overlay pointer-events-none"></div>
+
+    <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12 w-full">
+      <div class="max-w-2xl lg:max-w-3xl reveal">
+        <span class="section-label !text-olive-400">Agricultura responsable</span>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-semibold text-white mb-6 md:mb-8 leading-tight text-balance">
+          Producir hoy,<br/>
+          <span class="text-olive-400 italic">pensando en el mañana.</span>
+        </h2>
+        <p class="text-lg md:text-xl text-white/80 font-light leading-relaxed mb-10 max-w-xl">
+          En Agro Norte Corp trabajamos con prácticas sostenibles que protegen nuestros recursos naturales y aseguran un futuro mejor para las próximas generaciones.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl">
+          {sustainabilityItems.slice(0, 3).map((item, i) => (
+            <div
+              class="reveal-scale flex items-start gap-3 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors duration-500"
+              data-delay={200 + i * 100}
+            >
+              <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-olive-500/20 text-olive-400 flex items-center justify-center flex-shrink-0">
+                <Fragment set:html={item.icon} />
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-1">{item.title}</h4>
+                <p class="text-xs text-white/60 font-light leading-snug">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative bg-olive-800">
+    <div class="absolute inset-0 bg-gradient-to-b from-olive-900 to-olive-800"></div>
+    <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12 py-16 md:py-20">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
+        {stats.map((stat, i) => (
+          <div
+            class="reveal text-center"
+            data-delay={i * 80}
+          >
+            <div class="relative mb-3 md:mb-4">
+              <svg class="absolute -top-2 -left-2 w-8 h-8 text-olive-600/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="6" opacity="0.6"/>
+              </svg>
+              <div class="relative">
+                <p
+                  class="counter-animate font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-none"
+                  data-target={stat.num}
+                  data-prefix={stat.prefix}
+                  data-suffix={stat.suffix}
+                  data-duration="2200"
+                >
+                  {stat.prefix}0{stat.suffix}
+                </p>
+              </div>
+            </div>
+            <div class="w-10 h-[2px] bg-olive-500 mx-auto mb-3 rounded-full"></div>
+            <p class="text-sm md:text-base text-olive-200 font-light tracking-wide">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

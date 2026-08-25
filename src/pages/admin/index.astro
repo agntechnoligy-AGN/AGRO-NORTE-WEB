@@ -1,0 +1,57 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { readSession } from '../../lib/auth';
+import { getAllMedia } from '../../lib/db';
+
+export const prerender = false;
+
+const session = await readSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/admin/login');
+}
+
+let mediaCount = 0;
+let imageCount = 0;
+let videoCount = 0;
+try {
+  const rows = await getAllMedia();
+  mediaCount = rows.length;
+  imageCount = rows.filter((r) => r.media_type === 'image').length;
+  videoCount = rows.filter((r) => r.media_type === 'video').length;
+} catch {
+  mediaCount = -1;
+}
+---
+
+<AdminLayout title="Dashboard" adminName={session.name}>
+  <h1 class="admin-h1">Hola, {session.name}</h1>
+  <p class="admin-lead">
+    Panel oculto (no enlazado en la web). Los cambios principales de imágenes/videos también se pueden hacer por código y deploy.
+  </p>
+
+  <div class="admin-grid-2" style="margin-bottom: 1.5rem;">
+    <div class="admin-card">
+      <p class="admin-label">Medios en BD</p>
+      <p style="font-size:2.5rem; margin:0; font-family:'Instrument Serif',Georgia,serif;">{mediaCount < 0 ? '—' : mediaCount}</p>
+    </div>
+    <div class="admin-card">
+      <p class="admin-label">Imágenes / Videos</p>
+      <p style="font-size:2.5rem; margin:0; font-family:'Instrument Serif',Georgia,serif;">
+        {mediaCount < 0 ? '—' : `${imageCount} / ${videoCount}`}
+      </p>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h2 style="margin-top:0;">Cómo actualizar medios</h2>
+    <ol style="color:#5c6754; line-height:1.7; padding-left:1.2rem;">
+      <li><strong>Recomendado (deploy):</strong> coloca el archivo en <code>public/images/</code>, actualiza el seed o la fila en BD con <code>storage='file'</code> y haz deploy.</li>
+      <li><strong>Panel:</strong> sube el archivo en <a href="/admin/media">Medios</a> (se guarda en Postgres como BYTEA).</li>
+      <li>La clave <code>media_key</code> (ej. <code>hero</code>, <code>palta</code>) es la que usa el sitio.</li>
+    </ol>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1.25rem;">
+      <a class="admin-btn" href="/admin/media">Gestionar medios</a>
+      <a class="admin-btn secondary" href="/" target="_blank" rel="noopener">Abrir sitio</a>
+    </div>
+  </div>
+</AdminLayout>

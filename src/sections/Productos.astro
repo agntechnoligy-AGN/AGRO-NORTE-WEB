@@ -1,0 +1,119 @@
+---
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+const paltaImg = images.palta;
+const uvaImg = images.uva;
+
+const products = [
+  {
+    name: 'PALTA HASS',
+    emoji: '🥑',
+    image: paltaImg,
+    tagline: 'Sabor y cremosidad premium',
+    description: 'Cultivamos paltas Hass con los más altos estándares de calidad. Frutos perfectos, textura cremosa y excelente sabor, ideales para los mercados más exigentes.',
+    features: [
+      { label: 'Cultivo', desc: 'Cuidado artesanal' },
+      { label: 'Calidad', desc: 'Estándares exportación' },
+      { label: 'Cosecha', desc: 'Punto óptimo' },
+      { label: 'Características', desc: 'Hass premium' },
+      { label: 'Presentaciones', desc: 'Cajas 4kg / 10kg' }
+    ],
+    accent: 'olive'
+  },
+  {
+    name: 'UVA ALLISON',
+    emoji: '🍇',
+    image: uvaImg,
+    tagline: 'Dulzura natural del valle',
+    description: 'Nuestra uva Allison destaca por su dulzor, textura crujiente y uniformidad. Calidad seleccionada grano a grano para exportación.',
+    features: [
+      { label: 'Cultivo', desc: 'Viñedos cuidados' },
+      { label: 'Variedad', desc: 'Allison' },
+      { label: 'Calidad', desc: 'Grano a grano' },
+      { label: 'Cosecha', desc: 'Selección manual' },
+      { label: 'Presentaciones', desc: 'Clamshell 500g / 1kg' }
+    ],
+    accent: 'earth'
+  }
+];
+---
+
+<section id="productos" class="relative section-padding bg-gradient-to-b from-warm-white via-cream-50 to-warm-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12 mb-16 md:mb-20 text-center reveal">
+    <span class="section-label">Nuestros productos</span>
+    <h2 class="section-title mb-6 mx-auto max-w-4xl">
+      Lo mejor de <span class="text-olive-700">nuestra tierra</span>
+    </h2>
+    <p class="section-subtitle mx-auto">
+      Dos cultivos seleccionados, producidos con dedicación y los más altos estándares de calidad para llevar a tu mesa el sabor auténtico del norte del Perú.
+    </p>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+    <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+      {products.map((product, i) => (
+        <article
+          class={`product-card reveal-${i === 0 ? 'left' : 'right'} group relative rounded-3xl overflow-hidden min-h-[480px] md:min-h-[600px] lg:min-h-[680px] shadow-xl shadow-navy-900/10 cursor-pointer`}
+          data-delay={i * 150}
+        >
+          <div class="absolute inset-0">
+            <img
+              src={product.image}
+              alt={`${product.name} - Agro Norte Corp`}
+              class="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/50 to-navy-950/20 transition-opacity duration-700 group-hover:from-navy-950/90 group-hover:via-navy-950/60 group-hover:to-navy-950/30"></div>
+          </div>
+
+          <div class="relative h-full flex flex-col justify-end p-6 md:p-10 lg:p-12 text-white">
+            <div class="mb-auto transition-transform duration-700 group-hover:-translate-y-2">
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-xs tracking-[0.15em] uppercase font-semibold mb-6">
+                <span class="text-lg leading-none">{product.emoji}</span>
+                {product.name}
+              </span>
+              <h3 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-none">
+                {product.name}
+              </h3>
+              <p class="text-lg md:text-xl text-white/90 font-light italic mb-4 opacity-0 translate-y-4 transition-all duration-700 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
+                {product.tagline}
+              </p>
+              <p class="text-white/80 font-light leading-relaxed max-w-md opacity-0 translate-y-4 transition-all duration-700 delay-200 group-hover:opacity-100 group-hover:translate-y-0">
+                {product.description}
+              </p>
+            </div>
+
+            <div class="space-y-3 mt-8 max-w-md opacity-0 translate-y-6 transition-all duration-700 delay-300 group-hover:opacity-100 group-hover:translate-y-0">
+              {product.features.map((f) => (
+                <div class="flex items-center justify-between gap-4 py-3 px-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                  <div class="flex items-center gap-3">
+                    <span class="w-2 h-2 rounded-full bg-olive-400"></span>
+                    <span class="text-sm font-semibold tracking-wider uppercase">{f.label}</span>
+                  </div>
+                  <span class="text-sm text-white/70 font-light">{f.desc}</span>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-8 flex items-center justify-between">
+              <a
+                href="#contacto"
+                class="inline-flex items-center gap-2 px-6 py-3.5 bg-white text-navy-900 font-semibold text-sm uppercase tracking-wider transition-all duration-500 hover:bg-olive-400 hover:-translate-y-0.5 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 delay-500"
+              >
+                Consultar disponibilidad
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+              <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-navy-900 group-hover:rotate-45 transition-all duration-500 opacity-0 group-hover:opacity-100 delay-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

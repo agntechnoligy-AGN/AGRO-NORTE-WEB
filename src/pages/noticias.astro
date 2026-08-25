@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+
+const headerImg = images.headerNoticias;
+
+const news = [
+  {
+    tag: 'Campaña',
+    date: '15 Marzo, 2026',
+    title: 'Inicio de campaña de palta Hass 2026',
+    excerpt: 'Comenzamos una nueva temporada con expectativas de cosecha récord. La calidad promete ser excepcional gracias a un clima favorable y un manejo agronómico preciso.',
+    img: images.newsPalta
+  },
+  {
+    tag: 'Exportación',
+    date: '28 Enero, 2026',
+    title: 'Comenzamos nuestra campaña de uva de exportación',
+        excerpt: 'Nuestras primeras cajas de uva Allison se preparan para mercados de Europa, Asia y América del Norte con cadena de frío certificada.',
+    img: images.newsUva
+  },
+  {
+    tag: 'Innovación',
+    date: '10 Enero, 2026',
+    title: 'Implementamos monitoreo digital en tiempo real',
+    excerpt: 'Nuevas estaciones meteorológicas y sensores IoT en todo el fundo para decisiones más precisas sobre riego, nutrición y sanidad vegetal.',
+    img: images.newsTech
+  },
+  {
+    tag: 'Equipo',
+    date: '5 Diciembre, 2025',
+    title: 'Capacitación anual en Buenas Prácticas Agrícolas',
+    excerpt: 'Más de 200 colaboradores participaron en nuestra jornada de refuerzo en BPA, seguridad laboral y calidad de cosecha.',
+    img: images.newsTraining
+  },
+  {
+    tag: 'Sostenibilidad',
+    date: '18 Noviembre, 2025',
+    title: 'Ampliamos nuestra red de riego tecnificado',
+    excerpt: 'Nuevas líneas de goteo y mejora de reservorios para optimizar el uso del agua en las zonas de palta y uva.',
+    img: images.newsWater
+  },
+  {
+    tag: 'Mercados',
+    date: '2 Octubre, 2025',
+    title: 'Nuevos destinos comerciales en Asia',
+    excerpt: 'Consolidamos alianzas comerciales que abren puertas a mercados exigentes en Asia y Oceanía para nuestra palta Hass.',
+    img: images.newsExport
+  }
+];
+
+const featured = news[0];
+const rest = news.slice(1);
+---
+
+<BaseLayout title="Noticias | Agro Norte Corp" description="Últimas novedades de Agro Norte Corp: campañas de palta y uva, innovación agrícola, sostenibilidad y mercados de exportación.">
+  <PageHeader
+    eyebrow="Noticias"
+    title="Últimas novedades"
+    subtitle="Campañas, innovación y avances de Agro Norte Corp en el campo y en los mercados internacionales."
+    bgImage={headerImg}
+  />
+
+  <section class="relative section-padding overflow-hidden bg-gradient-to-b from-warm-white via-cream-50 to-warm-white">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <article class="reveal group relative grid lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden bg-white border border-navy-900/5 shadow-xl shadow-navy-900/10 mb-12 md:mb-16">
+        <div class="relative aspect-[16/10] lg:aspect-auto lg:min-h-[380px] overflow-hidden">
+          <img src={featured.img} alt={featured.title} class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-105" loading="lazy"/>
+          <span class="absolute top-5 left-5 px-3.5 py-1.5 rounded-full bg-olive-700 text-white text-[11px] font-bold tracking-[0.12em] uppercase">
+            Destacada
+          </span>
+        </div>
+        <div class="flex flex-col justify-center p-8 md:p-12">
+          <div class="flex items-center gap-3 text-xs text-navy-600 font-medium mb-4">
+            <span class="px-3 py-1 rounded-full bg-olive-50 text-olive-700 font-bold uppercase tracking-wider">{featured.tag}</span>
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-olive-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              {featured.date}
+            </span>
+          </div>
+          <h2 class="font-display text-3xl md:text-4xl font-bold text-navy-900 mb-4 leading-tight group-hover:text-olive-700 transition-colors">
+            {featured.title}
+          </h2>
+          <p class="text-navy-700/80 font-light leading-relaxed text-lg mb-8">{featured.excerpt}</p>
+          <a href="/contacto" class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-olive-700 hover:text-olive-800">
+            Más información
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16">
+        {rest.map((item, i) => (
+          <article class="reveal-scale group relative rounded-3xl overflow-hidden bg-white border border-navy-900/5 shadow-lg shadow-navy-900/5 hover:shadow-2xl hover:shadow-olive-900/10 transition-all duration-700 hover:-translate-y-2 flex flex-col" data-delay={i * 80}>
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img src={item.img} alt={item.title} class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110" loading="lazy"/>
+              <span class="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-olive-700 text-white text-[11px] font-bold tracking-[0.12em] uppercase">
+                {item.tag}
+              </span>
+            </div>
+            <div class="flex-1 flex flex-col p-6 md:p-7">
+              <div class="flex items-center gap-2 text-xs text-navy-600 font-medium mb-4">
+                <svg class="w-4 h-4 text-olive-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                {item.date}
+              </div>
+              <h3 class="font-display text-xl md:text-2xl font-bold text-navy-900 mb-4 leading-tight group-hover:text-olive-700 transition-colors duration-300">
+                {item.title}
+              </h3>
+              <p class="text-navy-700/80 font-light leading-relaxed mb-6 flex-1">{item.excerpt}</p>
+              <span class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-olive-700 mt-auto">
+                Leer más
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="reveal text-center p-8 md:p-12 rounded-3xl bg-olive-50 border border-olive-100">
+        <h3 class="font-display text-2xl md:text-3xl font-bold text-navy-900 mb-3">¿Quieres recibir nuestras novedades?</h3>
+        <p class="text-navy-700/80 font-light mb-6 max-w-xl mx-auto">Escríbenos y te mantendremos al día sobre campañas, disponibilidad y novedades del fundo.</p>
+        <a href="/contacto" class="btn-primary">Contáctanos</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

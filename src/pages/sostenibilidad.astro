@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+
+const headerImg = images.headerSostenibilidad;
+
+const pillars = [
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>`,
+    title: 'Uso eficiente del agua',
+    desc: 'Sistemas de riego por goteo tecnificado y sensores de humedad que reducen el consumo hídrico en más del 40% frente a métodos tradicionales.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`,
+    title: 'Cuidado del suelo',
+    desc: 'Prácticas regenerativas, cobertura vegetal y rotación planificada para mantener la fertilidad natural y prevenir la erosión.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L12 22M12 2C8 6 6 10 6 14C6 18 9 22 12 22M12 2C16 6 18 10 18 14C18 18 15 22 12 22M4 12C8 10 16 10 20 12"/></svg>`,
+    title: 'Manejo responsable',
+    desc: 'Cultivos gestionados bajo Buenas Prácticas Agrícolas. Uso racional de insumos y respeto por la biodiversidad del fundo.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>`,
+    title: 'Tecnología agrícola',
+    desc: 'Monitoreo digital, estaciones meteorológicas e IoT para decisiones precisas que optimizan recursos y calidad.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
+    title: 'Bienestar del equipo',
+    desc: 'Condiciones laborales justas, capacitación continua y desarrollo profesional para más de 450 colaboradores.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>`,
+    title: 'Compromiso ambiental',
+    desc: 'Reducción de residuos, gestión de empaques y alineación con estándares internacionales de sostenibilidad.'
+  }
+];
+
+const stats = [
+  { num: '+1,200 ha', label: 'Área agrícola' },
+  { num: '40%', label: 'Ahorro hídrico' },
+  { num: '+450', label: 'Colaboradores' },
+  { num: '+15', label: 'Años de experiencia' }
+];
+
+const actions = [
+  { title: 'Reservorios y riego', desc: 'Infraestructura hídrica propia que asegura disponibilidad y control del recurso en todas las campañas.' },
+  { title: 'Energía y eficiencia', desc: 'Optimización de operaciones de campo y empaque para reducir el impacto energético por kilogramo exportado.' },
+  { title: 'Comunidad local', desc: 'Generamos empleo formal y apoyamos el desarrollo de las familias de nuestra región en La Libertad.' }
+];
+---
+
+<BaseLayout title="Sostenibilidad | Agro Norte Corp" description="Agricultura responsable en Agro Norte Corp: uso eficiente del agua, cuidado del suelo, tecnología y bienestar de nuestro equipo.">
+  <PageHeader
+    eyebrow="Agricultura responsable"
+    title="Producir hoy, pensando en el mañana"
+    subtitle="Prácticas sostenibles que protegen nuestros recursos naturales y aseguran un futuro mejor para las próximas generaciones."
+    bgImage={headerImg}
+  />
+
+  <section class="relative section-padding overflow-hidden">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <div class="text-center mb-14 md:mb-20 reveal">
+        <span class="section-label">Nuestros pilares</span>
+        <h2 class="section-title mx-auto max-w-3xl mb-6">Cómo cuidamos la tierra y a nuestra gente</h2>
+        <p class="section-subtitle mx-auto max-w-2xl">
+          En Agro Norte Corp la sostenibilidad no es un discurso: es la forma en que cultivamos, cosechamos y trabajamos cada día.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-24 md:mb-32">
+        {pillars.map((p, i) => (
+          <div class="reveal-scale group p-6 md:p-8 rounded-3xl bg-white border border-navy-900/5 shadow-lg shadow-navy-900/5 hover:-translate-y-2 hover:shadow-2xl hover:shadow-olive-900/10 transition-all duration-700" data-delay={i * 60}>
+            <div class="w-14 h-14 rounded-2xl bg-olive-50 group-hover:bg-olive-600 text-olive-700 group-hover:text-white flex items-center justify-center mb-6 transition-colors duration-500">
+              <Fragment set:html={p.icon} />
+            </div>
+            <h3 class="font-bold text-xl mb-3 text-navy-900 group-hover:text-olive-700 transition-colors duration-300">{p.title}</h3>
+            <p class="text-navy-700/80 font-light leading-relaxed">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="reveal mb-24 md:mb-32 grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((s, i) => (
+          <div class="reveal-scale text-center p-6 md:p-8 rounded-3xl bg-olive-800 text-white" data-delay={i * 80}>
+            <p class="font-display text-3xl md:text-5xl font-bold mb-2">{s.num}</p>
+            <div class="w-10 h-[2px] bg-olive-400 mx-auto mb-3 rounded-full"></div>
+            <p class="text-sm md:text-base text-olive-200 font-light">{s.label}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="reveal mb-14">
+        <div class="text-center mb-12">
+          <span class="section-label">Acciones concretas</span>
+          <h2 class="section-title mx-auto max-w-3xl">Impacto real en el campo</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {actions.map((a, i) => (
+            <div class="reveal-scale p-8 rounded-3xl bg-gradient-to-br from-olive-50 via-white to-cream-50 border border-olive-100" data-delay={i * 80}>
+              <p class="text-olive-600 font-bold text-sm tracking-[0.2em] uppercase mb-3">0{i + 1}</p>
+              <h3 class="font-display text-2xl font-bold text-navy-900 mb-3">{a.title}</h3>
+              <p class="text-navy-700/80 font-light leading-relaxed">{a.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="reveal-scale p-8 md:p-12 rounded-3xl bg-gradient-to-br from-navy-900 to-navy-950 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
+        <div class="max-w-2xl">
+          <h3 class="font-display text-3xl md:text-4xl font-bold mb-4">¿Quieres conocer nuestro enfoque sostenible?</h3>
+          <p class="text-white/75 font-light text-lg leading-relaxed">Conversemos sobre nuestras prácticas, certificaciones y compromiso con el futuro.</p>
+        </div>
+        <a href="/contacto" class="flex-shrink-0 inline-flex items-center gap-2 px-8 py-4 bg-olive-500 hover:bg-olive-400 text-white font-bold uppercase tracking-wider text-sm transition-all duration-500 hover:-translate-y-1 shadow-lg">
+          Contáctanos
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

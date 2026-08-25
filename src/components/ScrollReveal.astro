@@ -1,0 +1,101 @@
+---
+---
+
+<script>
+  function revealOnScroll() {
+    const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const counters = document.querySelectorAll('.counter-animate');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const delay = entry.target.getAttribute('data-delay') || '0';
+            setTimeout(() => {
+              entry.target.classList.add('is-visible');
+            }, parseInt(delay));
+
+            if (entry.target.classList.contains('counter-animate')) {
+              animateCounter(entry.target as HTMLElement);
+            }
+
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -80px 0px'
+      }
+    );
+
+    reveals.forEach((el) => observer.observe(el));
+    counters.forEach((el) => observer.observe(el));
+  }
+
+  function animateCounter(el: HTMLElement) {
+    const target = parseFloat(el.getAttribute('data-target') || '0');
+    const duration = parseInt(el.getAttribute('data-duration') || '2000');
+    const prefix = el.getAttribute('data-prefix') || '';
+    const suffix = el.getAttribute('data-suffix') || '';
+    const decimals = parseInt(el.getAttribute('data-decimals') || '0');
+
+    const startTime = performance.now();
+    const startValue = 0;
+
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const current = startValue + (target - startValue) * eased;
+      el.textContent = `${prefix}${current.toFixed(decimals)}${suffix}`;
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  function initParallax() {
+    const parallaxEls = document.querySelectorAll<HTMLElement>('[data-parallax]');
+    
+    function onScroll() {
+      const scrolled = window.scrollY;
+      parallaxEls.forEach((el) => {
+        const speed = parseFloat(el.getAttribute('data-parallax') || '0.3');
+        const rect = el.getBoundingClientRect();
+        const elementTop = rect.top + scrolled;
+        const elementHeight = rect.height;
+        const windowHeight = window.innerHeight;
+
+        if (scrolled + windowHeight > elementTop && scrolled < elementTop + elementHeight) {
+          const offset = (scrolled - elementTop + windowHeight) * speed - windowHeight * speed;
+          el.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
+        }
+      });
+    }
+
+    if (parallaxEls.length > 0) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      revealOnScroll();
+      initParallax();
+    });
+  } else {
+    revealOnScroll();
+    initParallax();
+  }
+
+  // Si el observer falla o el contenido queda oculto, forzar visibilidad
+  setTimeout(() => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach((el) => {
+      el.classList.add('is-visible');
+    });
+  }, 2500);
+</script>

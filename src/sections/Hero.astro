@@ -1,0 +1,142 @@
+---
+// Video hero original — sin imagen antigua de fondo
+const heroVideo = '/videos/hero.mp4';
+const heroPoster = '/images/hero-video-poster.jpg';
+---
+
+<section id="inicio" class="relative w-full h-screen overflow-hidden bg-navy-950">
+  <div id="hero-media" class="absolute inset-0">
+    <div id="hero-image-wrap" class="absolute inset-0 bg-navy-950">
+      <video
+        id="hero-video"
+        class="absolute inset-0 w-full h-full object-cover"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster={heroPoster}
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-navy-950/35 via-navy-950/15 to-navy-950/55 pointer-events-none"></div>
+  </div>
+
+  <div id="hero-content" class="relative z-10 h-full flex flex-col items-center justify-center text-center px-5 md:px-8 will-change-transform">
+    <div id="hero-inner" class="max-w-5xl">
+      <h1
+        id="hero-title"
+        class="font-brand text-[clamp(1.35rem,5.2vw,4.25rem)] font-extrabold text-white mb-6 md:mb-8 whitespace-nowrap tracking-[-0.02em] leading-none animate-fade-in-up"
+        style="animation-delay: 0.4s; animation-fill-mode: both;"
+      >
+        AGRO<span class="text-olive-400"> NORTE</span> CORP
+      </h1>
+
+      <p
+        id="hero-tagline"
+        class="text-xl md:text-2xl lg:text-3xl font-light text-white/90 mb-4 md:mb-6 text-balance animate-fade-in-up"
+        style="animation-delay: 0.6s; animation-fill-mode: both;"
+      >
+        Cultivamos calidad. <span class="font-display italic">Producimos futuro.</span>
+      </p>
+
+      <div
+        id="hero-sub"
+        class="flex items-center justify-center gap-2 md:gap-4 mb-12 md:mb-16 text-white/70 text-sm md:text-base tracking-[0.15em] uppercase font-medium animate-fade-in-up"
+        style="animation-delay: 0.8s; animation-fill-mode: both;"
+      >
+        <span>Palta Hass</span>
+        <span class="w-1 h-1 rounded-full bg-olive-400"></span>
+        <span>Uva Allison</span>
+        <span class="w-1 h-1 rounded-full bg-olive-400"></span>
+        <span>Agricultura sostenible</span>
+      </div>
+
+    </div>
+  </div>
+
+  <a
+    href="#productos"
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-white/70 hover:text-white transition-colors cursor-pointer group animate-fade-in"
+    style="animation-delay: 1.4s; animation-fill-mode: both;"
+    aria-label="Desplazarse hacia abajo"
+  >
+    <svg class="w-5 h-5 animate-float" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </a>
+
+  <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-warm-white to-transparent z-10 pointer-events-none"></div>
+</section>
+
+<script>
+  const heroMedia = document.getElementById('hero-media');
+  const heroInner = document.getElementById('hero-inner');
+  const heroSection = document.getElementById('inicio');
+  const heroVideo = document.getElementById('hero-video') as HTMLVideoElement | null;
+
+  // Priorizar calidad: cargar y reproducir a resolución nativa (sin scale CSS que emborrona)
+  if (heroVideo) {
+    heroVideo.setAttribute('playsinline', '');
+    heroVideo.setAttribute('webkit-playsinline', '');
+    heroVideo.style.transform = 'translateZ(0)';
+    heroVideo.style.backfaceVisibility = 'hidden';
+    const tryPlay = () => {
+      heroVideo.play().catch(() => {});
+    };
+    if (heroVideo.readyState >= 2) tryPlay();
+    else {
+      heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+      heroVideo.addEventListener('canplay', tryPlay, { once: true });
+    }
+  }
+
+  function heroScrollEffect() {
+    const scrolled = window.scrollY;
+    const windowHeight = window.innerHeight;
+    if (heroSection) heroSection.style.height = windowHeight + 'px';
+
+    const progress = Math.min(scrolled / (windowHeight * 0.45), 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+
+    // Solo parallax suave (sin scale): el scale CSS degrada la nitidez del video
+    if (heroMedia) {
+      heroMedia.style.transform = 'translate3d(0, ' + (scrolled * 0.08) + 'px, 0)';
+    }
+    if (heroInner) {
+      const contentOpacity = Math.max(0, 1 - eased * 1.2);
+      const contentY = -scrolled * 0.35;
+      heroInner.style.opacity = contentOpacity.toString();
+      heroInner.style.transform = 'translate3d(0, ' + contentY + 'px, 0)';
+    }
+  }
+
+  let rafId: number | null = null;
+  function onScroll() {
+    if (rafId == null) {
+      rafId = requestAnimationFrame(function() {
+        heroScrollEffect();
+        rafId = null;
+      });
+    }
+  }
+
+  heroScrollEffect();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', heroScrollEffect, { passive: true });
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({
+        top: target.offsetTop,
+        behavior: 'smooth'
+      });
+    });
+  });
+</script>

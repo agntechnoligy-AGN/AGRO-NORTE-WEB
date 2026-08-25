@@ -1,0 +1,110 @@
+---
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+const aboutImage = images.orchard;
+
+const pillars = [
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      <circle cx="12" cy="12" r="2"/>
+    </svg>`,
+    title: 'Nuestra empresa',
+    description: 'Somos una empresa agrícola dedicada a la producción de frutas de alta calidad, llevando lo mejor de nuestros campos a mercados internacionales.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+    </svg>`,
+    title: 'Nuestra visión',
+    description: 'Desarrollar una agricultura eficiente, sostenible y orientada a mercados cada vez más exigentes, basada en la innovación y el respeto por la tierra.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 12a3 3 0 003-3"/>
+    </svg>`,
+    title: 'Nuestro compromiso',
+    description: 'Cuidar nuestros cultivos, nuestra gente y los recursos naturales. Cada cosecha es un compromiso con la excelencia y las generaciones futuras.'
+  }
+];
+---
+
+<section id="nosotros" class="relative section-padding overflow-hidden">
+  <div class="absolute top-20 -left-40 w-80 h-80 rounded-full bg-olive-100/50 blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-20 -right-40 w-80 h-80 rounded-full bg-earth-100/50 blur-3xl pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div class="reveal order-2 lg:order-1">
+        <div class="image-mask relative rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10 aspect-[4/3]">
+          <img
+            src={aboutImage}
+            alt="Nuestro fundo - campos de palta"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-tr from-navy-950/20 to-transparent pointer-events-none"></div>
+          <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur-sm">
+              <div class="w-10 h-10 rounded-xl bg-olive-600 flex items-center justify-center text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-xs text-navy-700 font-semibold uppercase tracking-wider">Excelencia</p>
+                <p class="text-sm font-bold text-navy-900">Cosecha certificada</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="relative -mt-8 -mr-8 md:-mr-16 ml-auto w-32 h-32 md:w-44 md:h-44 rounded-2xl bg-olive-700 p-5 md:p-6 text-white shadow-xl shadow-olive-900/30">
+          <p class="font-display text-3xl md:text-5xl font-bold leading-none mb-2">+15</p>
+          <p class="text-[10px] md:text-xs tracking-[0.15em] uppercase text-olive-200 font-semibold">Años<br/>Sostenibilidad</p>
+        </div>
+      </div>
+
+      <div class="reveal-right order-1 lg:order-2" data-delay="100">
+        <span class="section-label">Sobre nosotros</span>
+        <h2 class="section-title mb-6 md:mb-8 text-balance">
+          Cultivamos el presente.<br/>
+          <span class="text-olive-700">Construimos el futuro.</span>
+        </h2>
+        <p class="section-subtitle mb-10">
+          <strong class="font-semibold text-navy-800">Agro Norte Corp</strong> es una empresa agrícola dedicada a la producción y exportación de palta y uva de la más alta calidad. Trabajamos con pasión, tecnología y compromiso para llevar lo mejor de nuestra tierra a los mercados más exigentes del mundo.
+        </p>
+
+        <div class="space-y-5 mb-10">
+          {pillars.map((pillar, i) => (
+          <div
+            class={`reveal group flex gap-5 p-5 rounded-2xl transition-all duration-500 hover:bg-white hover:shadow-lg hover:shadow-navy-900/5 hover:-translate-y-0.5 border border-transparent hover:border-olive-100`}
+            data-delay={200 + i * 100}
+          >
+            <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-olive-50 group-hover:bg-olive-100 text-olive-700 flex items-center justify-center transition-colors duration-500 flex-shrink-0">
+              <Fragment set:html={pillar.icon} />
+            </div>
+            <div>
+              <h3 class="font-bold text-lg mb-1.5 text-navy-900 group-hover:text-olive-700 transition-colors duration-300">{pillar.title}</h3>
+              <p class="text-navy-700/80 font-light text-sm md:text-base leading-relaxed">{pillar.description}</p>
+            </div>
+          </div>
+          ))}
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#productos" class="btn-primary">
+            Ver nuestros productos
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+          <a href="#proceso" class="btn-outline">
+            Conoce nuestro proceso
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

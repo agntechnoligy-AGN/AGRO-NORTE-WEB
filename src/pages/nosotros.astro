@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Profesionales from '../components/Profesionales.astro';
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+
+const headerImg = images.headerNosotros;
+const aboutImage = images.orchard;
+
+const pillars = [
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><circle cx="12" cy="12" r="10"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/><circle cx="12" cy="12" r="3"/></svg>`,
+    title: 'Nuestra empresa',
+    description: 'Somos una empresa agrícola peruana dedicada a la producción y exportación de frutas de alta calidad. Llevamos lo mejor de nuestros campos peruanos a mercados internacionales con orgullo y compromiso.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`,
+    title: 'Nuestra visión',
+    description: 'Ser reconocidos como referentes en la agricultura sostenible del Perú. Desarrollar una agricultura eficiente, innovadora y orientada a mercados exigentes, basada en la innovación y el respeto por la tierra.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>`,
+    title: 'Nuestros valores',
+    description: 'Cuidar nuestros cultivos, nuestra gente y los recursos naturales. Cada cosecha es un compromiso con la excelencia, la transparencia y el bienestar común.'
+  },
+  {
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    title: 'Nuestro compromiso',
+    description: 'Garantizar la más alta calidad en cada etapa de nuestro proceso. Cosechar con responsabilidad social y ambiental para un futuro sostenible.'
+  }
+];
+
+const timeline = [
+  { year: '2008', title: 'Fundación', desc: 'Nace Agro Norte Corp con la visión de producir frutas de exportación.' },
+  { year: '2012', title: 'Primera exportación', desc: 'Primer envío de palta Hass al mercado europeo.' },
+  { year: '2016', title: 'Ampliación fundo', desc: 'Incorporamos nuevas hectáreas con viñedos.' },
+  { year: '2020', title: 'Certificaciones', desc: 'Implementamos procesos estandarizados de calidad.' },
+  { year: '2024', title: 'Innovación', desc: 'Nueva tecnología de monitoreo y riego inteligente.' },
+  { year: '2026', title: 'Expansión', desc: 'Nuevos mercados internacionales en Asia y Oceanía.' }
+];
+---
+
+<BaseLayout title="Nosotros | Agro Norte Corp" description="Conoce Agro Norte Corp: nuestra historia, visión, valores y compromiso con la agricultura sostenible de palta y uva peruana.">
+  <PageHeader
+    eyebrow="Sobre Nosotros"
+    title="Cultivamos el presente. Construimos el futuro."
+    subtitle="Más de 15 años cosechando calidad, compromiso y desarrollo sostenible en el norte del Perú."
+    bgImage={headerImg}
+  />
+
+  <section class="relative section-padding overflow-hidden">
+    <div class="absolute top-20 -left-40 w-80 h-80 rounded-full bg-olive-100/60 blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24 md:mb-32">
+        <div class="reveal">
+          <div class="image-mask relative rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10 aspect-[4/3]">
+            <img src={aboutImage} alt="Nuestro fundo" class="w-full h-full object-cover" loading="lazy"/>
+          </div>
+          <div class="relative -mt-8 -mr-8 md:-mr-16 ml-auto w-36 h-36 md:w-48 md:h-48 rounded-2xl bg-olive-700 p-5 md:p-6 text-white shadow-xl shadow-olive-900/30">
+            <p class="font-display text-3xl md:text-5xl font-bold leading-none mb-2">+15</p>
+            <p class="text-[10px] md:text-xs tracking-[0.15em] uppercase text-olive-200 font-semibold">Años cultivando<br/>confianza</p>
+          </div>
+        </div>
+
+        <div class="reveal-right" data-delay="100">
+          <span class="section-label">Nuestra Historia</span>
+          <h2 class="section-title mb-6">
+            Un legado de <span class="text-olive-700">trabajo y dedicación</span>
+          </h2>
+          <p class="section-subtitle mb-8">
+            <strong>Agro Norte Corp</strong> nace del esfuerzo de familias peruanas comprometidas con la tierra. Desde hace más de una década, cultivamos palta y uva con pasión, tecnología y compromiso para llevar lo mejor del Perú al mundo.
+          </p>
+          <p class="text-navy-700/80 font-light leading-relaxed mb-10">
+            Cada fruto que cosechamos lleva consigo años de experiencia, innovación constante y sobre todo, amor por lo que hacemos. Trabajamos cada día para mejorar nuestros procesos, cuidar los recursos naturales y aportar al desarrollo de nuestra región.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="/productos" class="btn-primary">Nuestros productos
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+            <a href="/contacto" class="btn-outline">Contáctanos</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-24 md:mb-32 text-center reveal">
+        <span class="section-label">Nuestros Pilares</span>
+        <h2 class="section-title mx-auto max-w-3xl mb-6 md:mb-16">Los valores que nos definen</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {pillars.map((p, i) => (
+            <div class="reveal-scale group p-6 md:p-8 rounded-3xl bg-white border border-navy-900/5 shadow-lg shadow-navy-900/5 hover:-translate-y-2 hover:shadow-2xl hover:shadow-olive-900/10 transition-all duration-700" data-delay={100 + i * 80}>
+              <div class="w-14 h-14 rounded-2xl bg-olive-50 group-hover:bg-olive-600 text-olive-700 group-hover:text-white flex items-center justify-center mb-6 transition-colors duration-500">
+                <Fragment set:html={p.icon} />
+              </div>
+              <h3 class="font-bold text-xl mb-3 text-navy-900 group-hover:text-olive-700 transition-colors duration-300">{p.title}</h3>
+              <p class="text-navy-700/80 font-light leading-relaxed">{p.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="text-center mb-16">
+          <span class="section-label">Nuestra Trayectoria</span>
+          <h2 class="section-title mx-auto max-w-3xl">Línea del tiempo</h2>
+        </div>
+        <div class="relative">
+          <div class="hidden md:block absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 bg-gradient-to-r from-olive-200 via-olive-400 to-olive-200"></div>
+          <div class="grid md:grid-cols-6 gap-6">
+            {timeline.map((t, i) => (
+              <div class="reveal-scale relative text-center" data-delay={i * 80}>
+                <div class="hidden md:flex absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white border-2 border-olive-400 z-10 items-center justify-center">
+                  <div class="w-3 h-3 rounded-full bg-olive-500"></div>
+                </div>
+                <div class="md:mt-10 p-5 rounded-2xl bg-white border border-navy-900/5 shadow-md">
+                  <p class="font-display text-2xl font-bold text-olive-700 mb-2">{t.year}</p>
+                  <h4 class="font-bold text-navy-900 mb-1">{t.title}</h4>
+                  <p class="text-sm text-navy-700/80 font-light">{t.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Profesionales />
+</BaseLayout>

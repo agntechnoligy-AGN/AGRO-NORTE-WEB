@@ -1,0 +1,147 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { readSession } from '../../lib/auth';
+import { getAllMedia, mediaPublicUrl } from '../../lib/db';
+
+export const prerender = false;
+
+const session = await readSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/admin/login');
+}
+
+let items: Awaited<ReturnType<typeof getAllMedia>> = [];
+let dbError = '';
+try {
+  items = await getAllMedia();
+} catch (e) {
+  dbError = 'No se pudo leer la base de datos. Revisa DATABASE_URL y ejecuta npm run db:migrate.';
+}
+---
+
+<AdminLayout title="Medios" adminName={session.name}>
+  <h1 class="admin-h1">Medios</h1>
+  <p class="admin-lead">Sube imágenes o videos. Quedan en Railway Postgres (opción 1-B: metadatos + archivo).</p>
+
+  {dbError && <div class="admin-error">{dbError}</div>}
+  <div id="msg" style="display:none;"></div>
+
+  <div class="admin-card" style="margin-bottom:1.5rem;">
+    <h2 style="margin-top:0; font-size:1.25rem;">Subir / reemplazar</h2>
+    <form id="upload-form">
+      <div class="admin-grid-2">
+        <div class="admin-field">
+          <label class="admin-label" for="media_key">Clave (media_key)</label>
+          <input class="admin-input" id="media_key" name="media_key" required placeholder="hero" />
+        </div>
+        <div class="admin-field">
+          <label class="admin-label" for="media_type">Tipo</label>
+          <select class="admin-select" id="media_type" name="media_type">
+            <option value="image">Imagen</option>
+            <option value="video">Video</option>
+          </select>
+        </div>
+        <div class="admin-field">
+          <label class="admin-label" for="title">Título</label>
+          <input class="admin-input" id="title" name="title" placeholder="Hero inicio" />
+        </div>
+        <div class="admin-field">
+          <label class="admin-label" for="section">Sección</label>
+          <input class="admin-input" id="section" name="section" placeholder="inicio" />
+        </div>
+      </div>
+      <div class="admin-field">
+        <label class="admin-label" for="alt_text">Texto alt</label>
+        <input class="admin-input" id="alt_text" name="alt_text" />
+      </div>
+      <div class="admin-field">
+        <label class="admin-label" for="file">Archivo (máx. 25 MB)</label>
+        <input class="admin-input" id="file" name="file" type="file" accept="image/*,video/*" required />
+      </div>
+      <button class="admin-btn" type="submit">Guardar en BD</button>
+    </form>
+  </div>
+
+  <div class="admin-card" style="overflow-x:auto;">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Preview</th>
+          <th>Clave</th>
+          <th>Sección</th>
+          <th>Tipo</th>
+          <th>Storage</th>
+          <th>Activo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item) => (
+          <tr>
+            <td>
+              {item.media_type === 'image' ? (
+                <img class="admin-thumb" src={mediaPublicUrl(item)} alt={item.alt_text} />
+              ) : (
+                <span style="font-size:0.8rem;color:#5c6754;">VIDEO</span>
+              )}
+            </td>
+            <td><code>{item.media_key}</code></td>
+            <td>{item.section}</td>
+            <td>{item.media_type}</td>
+            <td>{item.storage}</td>
+            <td>{item.is_active ? 'Sí' : 'No'}</td>
+            <td>
+              <button
+                type="button"
+                class="admin-btn secondary delete-btn"
+                data-key={item.media_key}
+                style="padding:0.35rem 0.75rem; font-size:0.8rem;"
+              >Eliminar</button>
+            </td>
+          </tr>
+        ))}
+        {items.length === 0 && !dbError && (
+          <tr><td colspan="7">No hay medios. Ejecuta <code>npm run db:migrate</code>.</td></tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const form = document.getElementById('upload-form') as HTMLFormElement;
+    const msg = document.getElementById('msg') as HTMLDivElement;
+
+    function showMsg(text: string, ok: boolean) {
+      msg.className = ok ? 'admin-ok' : 'admin-error';
+      msg.textContent = text;
+      msg.style.display = 'block';
+    }
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const res = await fetch('/api/admin/media', { method: 'POST', body: data });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        showMsg(json.error || 'Error al subir', false);
+        return;
+      }
+      showMsg('Guardado correctamente. Recargando…', true);
+      setTimeout(() => window.location.reload(), 700);
+    });
+
+    document.querySelectorAll('.delete-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const key = (btn as HTMLElement).dataset.key;
+        if (!key || !confirm(`¿Eliminar ${key}?`)) return;
+        const res = await fetch('/api/admin/media', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ media_key: key })
+        });
+        if (res.ok) window.location.reload();
+        else showMsg('No se pudo eliminar', false);
+      });
+    });
+  </script>
+</AdminLayout>

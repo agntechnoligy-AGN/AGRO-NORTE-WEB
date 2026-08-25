@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 620" fill="none">
+  <rect width="480" height="620" fill="#e8ede3"/>
+  <rect x="40" y="520" width="400" height="60" rx="8" fill="#d4ddd0"/>
+  <circle cx="240" cy="210" r="85" fill="#c5cfc0"/>
+  <ellipse cx="240" cy="400" rx="120" ry="100" fill="#c5cfc0"/>
+  <path d="M120 380 Q240 340 360 380 L360 520 Q240 560 120 520 Z" fill="#b8c4b0"/>
+  <text x="240" y="580" text-anchor="middle" fill="#48612f" font-family="Arial,sans-serif" font-size="14" font-weight="600">Ing. Profesional</text>
+</svg>

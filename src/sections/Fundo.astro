@@ -1,0 +1,152 @@
+---
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+
+const fundoImages = [
+  {
+    img: images.greenFields,
+    title: 'Nuestro Campo',
+    icon: '🌱',
+    desc: 'Hectáreas fértiles preparadas con dedicación.'
+  },
+  {
+    img: images.avocadoOrchard,
+    title: 'Palta',
+    icon: '🥑',
+    desc: 'Paltos con frutos seleccionados de alta calidad.'
+  },
+  {
+    img: images.vineyard,
+    title: 'Uva',
+    icon: '🍇',
+    desc: 'Viñedos con uva Allison de exportación.'
+  },
+  {
+    img: images.tractor,
+    title: 'Maquinaria',
+    icon: '🚜',
+    desc: 'Equipos modernos para una agricultura de precisión.'
+  },
+  {
+    img: images.irrigation,
+    title: 'Riego',
+    icon: '💧',
+    desc: 'Sistema tecnificado para el uso óptimo del agua.'
+  },
+  {
+    img: images.workers,
+    title: 'Trabajo',
+    icon: '👨‍🌾',
+    desc: 'Nuestro equipo: el alma de cada cosecha.'
+  }
+];
+---
+
+<section id="fundo" class="relative section-padding overflow-hidden bg-gradient-to-b from-warm-white to-cream-100">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12 mb-12 md:mb-16 reveal">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div>
+        <span class="section-label">Nuestro fundo</span>
+        <h2 class="section-title max-w-2xl">
+          Recorre <span class="text-olive-700">nuestros campos</span>
+        </h2>
+      </div>
+      <p class="section-subtitle lg:text-right lg:max-w-md">
+        Un viaje visual por las distintas áreas de nuestro fundo. Donde la naturaleza y la tecnología se encuentran para producir lo mejor.
+      </p>
+    </div>
+  </div>
+
+  <div class="relative max-w-[1800px] mx-auto reveal-scale">
+    <div class="fundo-track flex gap-4 md:gap-6 px-5 md:px-8 lg:px-12 pb-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+      {fundoImages.map((item, i) => (
+        <div
+          class="group relative flex-shrink-0 w-[80%] sm:w-[60%] md:w-[45%] lg:w-[32%] aspect-[4/3] rounded-3xl overflow-hidden snap-start shadow-xl shadow-navy-900/10 hover:shadow-2xl hover:shadow-olive-900/20 transition-all duration-700 hover:-translate-y-2"
+          style={{animationDelay: `${i * 80}ms`}}
+        >
+          <img
+            src={item.img}
+            alt={`${item.title} - Fundo Agro Norte Corp`}
+            class="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-110"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent group-hover:from-navy-950/90 transition-all duration-500"></div>
+
+          <div class="absolute top-5 left-5">
+            <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-2xl">
+              {item.icon}
+            </div>
+          </div>
+
+          <div class="absolute bottom-0 left-0 right-0 p-5 md:p-6 text-white">
+            <div class="mb-2 text-xs tracking-[0.15em] uppercase font-semibold text-olive-300">
+              Zona 0{i + 1}
+            </div>
+            <h3 class="font-display text-2xl md:text-3xl font-bold mb-2">
+              {item.title}
+            </h3>
+            <p class="text-white/80 font-light text-sm md:text-base translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+              {item.desc}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex items-center justify-between mt-8 max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <p class="text-sm text-navy-700/60 font-light">
+        <span class="font-semibold text-navy-800">← Desliza</span> para explorar
+      </p>
+      <div class="hidden sm:flex items-center gap-1">
+        {fundoImages.map((_, i) => (
+          <span class="fund-dot w-1.5 h-1.5 rounded-full bg-navy-300 transition-colors duration-300" data-idx={i}></span>
+        ))}
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="fundo-prev" class="w-11 h-11 rounded-full bg-white border border-navy-900/10 text-navy-800 hover:bg-olive-700 hover:text-white hover:border-olive-700 transition-all duration-300 flex items-center justify-center shadow-md shadow-navy-900/5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <button id="fundo-next" class="w-11 h-11 rounded-full bg-white border border-navy-900/10 text-navy-800 hover:bg-olive-700 hover:text-white hover:border-olive-700 transition-all duration-300 flex items-center justify-center shadow-md shadow-navy-900/5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const track = document.querySelector<HTMLElement>('.fundo-track');
+    const prevBtn = document.getElementById('fundo-prev');
+    const nextBtn = document.getElementById('fundo-next');
+    const dots = document.querySelectorAll<HTMLElement>('.fund-dot');
+
+    function scrollCard(direction: number) {
+      if (!track) return;
+      const card = track.querySelector<HTMLElement>('.group');
+      const scrollAmount = (card?.offsetWidth || 400) + 24;
+      track.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+    }
+
+    prevBtn?.addEventListener('click', () => scrollCard(-1));
+    nextBtn?.addEventListener('click', () => scrollCard(1));
+
+    track?.addEventListener('scroll', () => {
+      if (!track) return;
+      const card = track.querySelector<HTMLElement>('.group');
+      const cardW = (card?.offsetWidth || 400) + 24;
+      const idx = Math.round(track.scrollLeft / cardW);
+      dots?.forEach((d, i) => {
+        d.classList.toggle('bg-olive-600', i === idx);
+        d.classList.toggle('w-6', i === idx);
+        d.classList.toggle('rounded-full', true);
+      });
+    });
+
+    setTimeout(() => {
+      dots?.[0]?.classList.add('bg-olive-600', 'w-6');
+    }, 100);
+  </script>
+</section>

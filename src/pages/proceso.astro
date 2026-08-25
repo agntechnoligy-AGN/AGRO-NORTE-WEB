@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+
+const headerImg = images.headerProceso;
+
+const processSteps = [
+  { num: '01', title: 'Preparación del Suelo', subtitle: 'La base de todo', desc: 'Análisis completo de suelo (ph, nutrientes, textura) seguido de arado, nivelación y corrección para asegurar las condiciones óptimas para cada cultivo.', icon: '⛰️' },
+  { num: '02', title: 'Plantación & Cultivo', subtitle: 'Nace la vida', desc: 'Selección de plantas de vivero certificado. Plantación manual y monitoreo inicial para asegurar un enraizamiento saludable y desarrollo uniforme.', icon: '🌱' },
+  { num: '03', title: 'Riego Inteligente', subtitle: 'Agua con propósito', desc: 'Sistemas de goteo tecnificado programados. Sensores de humedad en tiempo real. Ahorro hídrico mayor al 40% vs sistemas tradicionales.', icon: '💧' },
+  { num: '04', title: 'Monitoreo constante', subtitle: 'Ojos en el campo', desc: 'Equipo técnico monitoreando sanidad vegetal, nutrición, estado hídrico y desarrollo fenológico. Visitas diarias, reportes semanales.', icon: '📡' },
+  { num: '05', title: 'Cosecha manual', subtitle: 'Punto exacto', desc: 'Cosecha selectiva por trabajadores especializados. Grado Brix, color, tamaño y firmeza son medidos antes de cortar cada racimo o fruto.', icon: '🧺' },
+  { num: '06', title: 'Selección & Calidad', subtitle: 'Lo mejor, garantizado', desc: 'Línea de selección óptica + manual. Control de sanidad, calibres estándar, empaque de exportación según normativas internacionales.', icon: '✅' },
+  { num: '07', title: 'Cadena de frío', subtitle: 'Frescura total', desc: 'Pre-enfriamiento hidrocooler para uva, cámara de maduración controlada para palta. Temperatura monitoreada en todo el proceso.', icon: '❄️' },
+  { num: '08', title: 'Distribución Global', subtitle: 'Del campo al mundo', desc: 'Logística internacional certificada. Envíos marítimos y aéreos. Rastreabilidad total desde el fundo hasta el destino final.', icon: '🚛' }
+];
+
+const quality = [
+  { title: 'HACCP', desc: 'Análisis de peligros y puntos de control críticos' },
+  { title: 'Buenas Prácticas', desc: 'Implementación de BPA y BPM en todo el fundo' },
+  { title: 'Control Brix', desc: 'Medición de dulzor en cada lote cosechado' },
+  { title: 'Calibres', desc: 'Clasificación por tamaño según normativa' },
+  { title: 'Trazabilidad', desc: 'Lote × Campo × Cosechador registrado' },
+  { title: 'Laboratorio', desc: 'Pruebas físico-químicas y microbiológicas' }
+];
+---
+
+<BaseLayout title="Nuestro Proceso | Agro Norte Corp" description="Conoce el proceso productivo de Agro Norte Corp: desde la preparación del suelo hasta la distribución global. 8 etapas de excelencia.">
+  <PageHeader
+    eyebrow="Nuestro Proceso"
+    title="Del campo a tu mesa"
+    subtitle="8 etapas diseñadas para asegurar excelencia en cada palta y cada racimo de uva."
+    bgImage={headerImg}
+  />
+
+  <section class="relative section-padding overflow-hidden">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <div class="space-y-6 md:space-y-10 mb-28">
+        {processSteps.map((step, i) => (
+          <div
+            class={`reveal grid md:grid-cols-12 gap-8 items-center ${i % 2 === 0 ? '' : 'md:[&>*:first-child]:col-start-5 md:[&>*:first-child]:col-span-8'}`}
+            data-delay={i * 60}
+          >
+            <div class={`md:col-span-5 ${i % 2 === 1 ? 'md:order-2' : ''}`}>
+              <div class="relative p-8 md:p-10 rounded-3xl bg-gradient-to-br from-olive-50 via-white to-cream-50 border border-olive-100 shadow-xl shadow-navy-900/5">
+                <div class="absolute -top-5 -right-5 w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-olive-700 text-white flex items-center justify-center shadow-xl shadow-olive-900/30 rotate-3">
+                  <span class="font-display text-3xl md:text-5xl font-bold leading-none">{step.num}</span>
+                </div>
+                <div class="text-5xl mb-4">{step.icon}</div>
+                <p class="text-xs text-olive-600 font-bold uppercase tracking-[0.2em] mb-2">Paso {step.num}</p>
+                <h3 class="font-display text-3xl md:text-4xl font-bold text-navy-900 mb-2">{step.title}</h3>
+                <p class="text-olive-700 italic font-medium mb-4">{step.subtitle}</p>
+                <p class="text-navy-700/80 font-light leading-relaxed text-lg">{step.desc}</p>
+              </div>
+            </div>
+            <div class="md:col-span-7 hidden md:flex items-center justify-center relative min-h-[180px]">
+              <div class="hidden md:block absolute left-0 top-1/2 w-full h-[2px] bg-gradient-to-r from-olive-200 via-olive-400 to-olive-200"></div>
+              <div class="relative z-10 flex items-center justify-center gap-3">
+                {Array.from({ length: Math.min(4, 8) }).map((_, dot) => (
+                  <div
+                    class={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-olive-500 transition-all duration-500 ${dot < Math.floor((i + 1) * 0.5) ? 'bg-olive-600 scale-110' : 'bg-white'}`}
+                  ></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="reveal mb-14">
+        <div class="text-center mb-14">
+          <span class="section-label">Control de Calidad</span>
+          <h2 class="section-title mx-auto max-w-3xl">La excelencia es nuestra norma</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {quality.map((q, i) => (
+            <div class="reveal-scale group p-6 rounded-2xl bg-white border border-navy-900/5 hover:border-olive-200 hover:shadow-xl shadow-md transition-all duration-500" data-delay={i * 50}>
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-olive-100 text-olive-700 flex items-center justify-center group-hover:bg-olive-700 group-hover:text-white transition-colors duration-500 flex-shrink-0">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <div>
+                  <h4 class="font-bold text-navy-900 mb-1.5 text-lg">{q.title}</h4>
+                  <p class="text-navy-700/80 font-light text-sm leading-relaxed">{q.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="reveal-scale p-8 md:p-12 rounded-3xl bg-gradient-to-br from-navy-900 to-navy-950 text-white flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 shadow-2xl">
+        <div class="max-w-2xl">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[11px] tracking-[0.25em] uppercase text-olive-300 mb-5 font-bold">Estándares internacionales</span>
+          <h3 class="font-display text-3xl md:text-5xl font-bold mb-4 leading-tight">Cumplimos con los más altos estándares globales</h3>
+          <p class="text-white/75 font-light text-lg leading-relaxed">Nuestros procesos son auditados y alineados con las normativas de mercados de Europa, Norteamérica y Asia.</p>
+        </div>
+        <a href="/productos" class="flex-shrink-0 inline-flex items-center gap-2 px-8 py-4 bg-olive-500 hover:bg-olive-400 text-white font-bold uppercase tracking-wider text-sm transition-all duration-500 hover:-translate-y-1 shadow-lg shadow-olive-900/40">
+          Ver productos
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

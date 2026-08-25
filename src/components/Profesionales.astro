@@ -1,0 +1,193 @@
+---
+const professionals = [
+  {
+    name: 'Ing. Carlos Vásquez Ramírez',
+    photo: 'https://pngimg.com/uploads/businessman/businessman_PNG6539.png',
+    altPhoto: 'https://pngimg.com/uploads/businessman/businessman_PNG6541.png',
+    especialidad: 'Ingeniero Agrónomo',
+    area: 'Producción Agrícola',
+    experiencia: '12 años en manejo de cultivos de palta y uva.',
+    enfoque: 'Mejora continua, innovación y sostenibilidad.'
+  },
+  {
+    name: 'Ing. María Fernández López',
+    photo: 'https://pngimg.com/uploads/business_woman/business_woman_PNG70.png',
+    altPhoto: 'https://pngimg.com/uploads/business_woman/business_woman_PNG71.png',
+    especialidad: 'Ingeniera Agrícola',
+    area: 'Riego y Suelos',
+    experiencia: '8 años en gestión eficiente del recurso hídrico.',
+    enfoque: 'Uso responsable del agua y conservación del suelo.'
+  },
+  {
+    name: 'Ing. Pablo Quispe Herrera',
+    photo: 'https://pngimg.com/uploads/businessman/businessman_PNG6541.png',
+    altPhoto: 'https://pngimg.com/uploads/businessman/businessman_PNG6560.png',
+    especialidad: 'Ingeniero Agroindustrial',
+    area: 'Calidad y Postcosecha',
+    experiencia: '10 años en procesos de calidad y exportación.',
+    enfoque: 'Calidad, inocuidad y satisfacción del cliente.'
+  }
+];
+---
+
+<section id="profesionales" class="relative py-20 md:py-28 overflow-hidden bg-[#eef2e8]">
+  <div class="absolute top-6 right-8 w-32 h-32 opacity-[0.08] pointer-events-none">
+    <svg viewBox="0 0 120 120" fill="currentColor" class="w-full h-full text-olive-700">
+      <path d="M60 8C42 28 18 38 18 68c0 22 18 40 42 40s42-18 42-40c0-30-24-40-42-60z"/>
+    </svg>
+  </div>
+  <div class="absolute bottom-0 inset-x-0 h-24 pointer-events-none">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" class="w-full h-full">
+      <path d="M0,55 C480,95 960,15 1440,45 L1440,100 L0,100 Z" fill="#d5e3c8" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 md:mb-16 reveal">
+      <div class="flex justify-center mb-3">
+        <svg class="w-7 h-7 text-olive-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2v20M12 2C8 6 6 10 6 14c0 4 3 8 6 8s6-4 6-8c0-4-2-8-6-12z"/>
+          <path d="M4 12c4-2 12-2 16 0"/>
+        </svg>
+      </div>
+      <p class="text-[11px] md:text-xs font-semibold tracking-[0.28em] uppercase text-olive-600 mb-3">Nuestros Expertos</p>
+      <h2 class="font-display text-3xl md:text-[2.5rem] font-bold text-olive-800 leading-tight mb-4">
+        Conoce a nuestro equipo profesional
+      </h2>
+      <p class="text-sm md:text-base text-navy-700/70 font-light leading-relaxed max-w-2xl mx-auto">
+        Contamos con un equipo de ingenieros y especialistas altamente capacitados, comprometidos con la innovación y la excelencia en cada etapa de nuestros procesos productivos.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-y-14 gap-x-4 xl:gap-x-3 mb-14">
+      {professionals.map((pro, i) => (
+        <article class="reveal-scale pro-card" data-delay={i * 100}>
+          <div class="pro-card-bg">
+            <h3 class="font-display text-[15px] md:text-[16px] font-bold text-olive-800 leading-snug mb-5">
+              {pro.name}
+            </h3>
+            <ul class="space-y-3.5">
+              <li class="flex items-start gap-2.5">
+                <span class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 0 6-1.3 6-3v-5"/></svg></span>
+                <div><p class="pro-label">Especialidad</p><p class="pro-value">{pro.especialidad}</p></div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12"/><path d="M12 12C12 8 8 6 8 6s-4 2-4 6c0 4 4 6 4 6"/><path d="M12 12c0-4 4-6 4-6s4 2 4 6c0 4-4 6-4 6"/></svg></span>
+                <div><p class="pro-label">Área</p><p class="pro-value">{pro.area}</p></div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                <div><p class="pro-label">Experiencia</p><p class="pro-text">{pro.experiencia}</p></div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <div><p class="pro-label">Enfoque</p><p class="pro-text">{pro.enfoque}</p></div>
+              </li>
+            </ul>
+          </div>
+
+          <img
+            src={pro.photo}
+            alt={pro.name}
+            class="pro-person"
+            loading="lazy"
+            width="280"
+            height="380"
+            onerror={`this.onerror=null;this.src='${pro.altPhoto}'`}
+          />
+        </article>
+      ))}
+    </div>
+
+    <div class="reveal text-center relative z-10">
+      <div class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-olive-800 text-white text-sm font-medium shadow-lg">
+        <svg class="w-4 h-4 text-olive-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Comprometidos con la excelencia y el desarrollo del agro.
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pro-card {
+    position: relative;
+    min-height: 400px;
+    padding-left: 90px;
+    padding-top: 20px;
+  }
+
+  .pro-card-bg {
+    position: relative;
+    z-index: 10;
+    background: #fff;
+    border-radius: 1.25rem;
+    padding: 1.75rem 1.25rem 1.75rem 42%;
+    min-height: 370px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* PNG recortado — solo la persona, sin caja */
+  .pro-person {
+    position: absolute;
+    left: -10px;
+    bottom: 0;
+    z-index: 20;
+    width: auto;
+    height: 105%;
+    max-height: 430px;
+    max-width: 52%;
+    object-fit: contain;
+    object-position: bottom left;
+    background: none;
+    border: none;
+    box-shadow: none;
+    pointer-events: none;
+    filter: drop-shadow(-6px 8px 16px rgba(0, 0, 0, 0.2));
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+
+  .pro-card:hover .pro-person {
+    filter: drop-shadow(-10px 14px 24px rgba(0, 0, 0, 0.28));
+    transform: scale(1.02);
+  }
+
+  .pro-icon {
+    flex-shrink: 0;
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 9999px;
+    background: #48612f;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pro-icon svg { width: 0.85rem; height: 0.85rem; }
+
+  .pro-label {
+    font-size: 8.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: #5c7c38;
+    margin-bottom: 1px;
+  }
+  .pro-value {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #26334c;
+    line-height: 1.35;
+  }
+  .pro-text {
+    font-size: 11.5px;
+    font-weight: 300;
+    color: rgba(38, 51, 76, 0.82);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 767px) {
+    .pro-card { padding-left: 70px; min-height: 360px; }
+    .pro-card-bg { padding-left: 38%; min-height: 340px; }
+    .pro-person { max-width: 48%; max-height: 380px; left: -6px; }
+  }
+</style>

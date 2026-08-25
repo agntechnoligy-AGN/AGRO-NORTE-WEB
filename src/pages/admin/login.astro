@@ -1,0 +1,61 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { readSession } from '../../lib/auth';
+
+export const prerender = false;
+
+const session = await readSession(Astro.cookies);
+if (session) {
+  return Astro.redirect('/admin');
+}
+---
+
+<AdminLayout title="Login">
+  <div style="min-height: 80vh; display: grid; place-items: center;">
+    <div class="admin-card" style="width: min(100%, 420px);">
+      <p style="margin:0 0 0.35rem; font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase; color:#5c6754; font-weight:700;">Acceso restringido</p>
+      <h1 class="admin-h1" style="font-size:2.2rem;">Panel admin</h1>
+      <p class="admin-lead">Esta ruta no aparece en el sitio público. Solo se entra con el enlace directo.</p>
+
+      <div id="login-error" class="admin-error" style="display:none;"></div>
+
+      <form id="login-form">
+        <div class="admin-field">
+          <label class="admin-label" for="email">Email</label>
+          <input class="admin-input" id="email" name="email" type="email" required autocomplete="username" />
+        </div>
+        <div class="admin-field">
+          <label class="admin-label" for="password">Contraseña</label>
+          <input class="admin-input" id="password" name="password" type="password" required autocomplete="current-password" />
+        </div>
+        <button class="admin-btn" type="submit" style="width:100%;">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form') as HTMLFormElement;
+    const errorBox = document.getElementById('login-error') as HTMLDivElement;
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+      const data = new FormData(form);
+      const res = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: data.get('email'),
+          password: data.get('password')
+        })
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        errorBox.textContent = json.error || 'No se pudo iniciar sesión';
+        errorBox.style.display = 'block';
+        return;
+      }
+      window.location.href = '/admin';
+    });
+  </script>
+</AdminLayout>

@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { resolveImages } from '../lib/media';
+const images = await resolveImages();
+
+const headerImg = images.headerFundo;
+
+const zones = [
+  {
+    img: images.greenFields,
+    title: 'Nuestro Campo',
+    icon: '🌱',
+    desc: 'Más de 1,200 hectáreas fértiles preparadas con dedicación en La Libertad, Perú.'
+  },
+  {
+    img: images.avocadoOrchard,
+    title: 'Palta Hass',
+    icon: '🥑',
+    desc: 'Huertos de palto con frutos seleccionados de alta calidad para exportación.'
+  },
+  {
+    img: images.vineyard,
+    title: 'Viñedos',
+    icon: '🍇',
+    desc: 'Viñedos con uva Allison de exportación.'
+  },
+  {
+    img: images.tractor,
+    title: 'Maquinaria',
+    icon: '🚜',
+    desc: 'Equipos modernos para una agricultura de precisión y eficiencia.'
+  },
+  {
+    img: images.irrigation,
+    title: 'Riego',
+    icon: '💧',
+    desc: 'Sistema tecnificado de goteo para el uso óptimo del agua.'
+  },
+  {
+    img: images.workers,
+    title: 'Nuestro equipo',
+    icon: '👨‍🌾',
+    desc: 'Colaboradores capacitados: el alma de cada cosecha.'
+  }
+];
+
+const facts = [
+  { label: 'Ubicación', value: 'La Libertad, Perú' },
+  { label: 'Extensión', value: '+1,200 hectáreas' },
+  { label: 'Cultivos', value: 'Palta Hass y Uva Allison' },
+  { label: 'Operación', value: 'Todo el año' }
+];
+---
+
+<BaseLayout title="Nuestro Fundo | Agro Norte Corp" description="Conoce el fundo de Agro Norte Corp en La Libertad: campos de palta, viñedos, riego tecnificado y maquinaria moderna.">
+  <PageHeader
+    eyebrow="Nuestro fundo"
+    title="Recorre nuestros campos"
+    subtitle="Donde la naturaleza y la tecnología se encuentran para producir lo mejor del norte del Perú."
+    bgImage={headerImg}
+  />
+
+  <section class="relative section-padding overflow-hidden bg-gradient-to-b from-warm-white to-cream-100">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20 md:mb-28">
+        <div class="reveal">
+          <span class="section-label">El corazón de Agro Norte</span>
+          <h2 class="section-title mb-6">Un fundo diseñado para la excelencia</h2>
+          <p class="section-subtitle mb-8">
+            Nuestro fundo combina clima ideal, suelos fértiles e infraestructura moderna. Cada zona está pensada para maximizar calidad, trazabilidad y sostenibilidad.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {facts.map((f) => (
+              <div class="p-5 rounded-2xl bg-white border border-navy-900/5 shadow-md">
+                <p class="text-xs uppercase tracking-wider text-olive-700 font-bold mb-1">{f.label}</p>
+                <p class="font-display text-xl font-bold text-navy-900">{f.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="reveal-right" data-delay="100">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10 aspect-[4/3]">
+            <img src={zones[0].img} alt="Vista del fundo Agro Norte Corp" class="w-full h-full object-cover" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="section-label">Zonas del fundo</span>
+        <h2 class="section-title mx-auto max-w-3xl">Explora cada área de operación</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-20">
+        {zones.map((z, i) => (
+          <article class="reveal-scale group relative rounded-3xl overflow-hidden shadow-xl shadow-navy-900/10 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700" data-delay={i * 60}>
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src={z.img} alt={z.title} class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110" loading="lazy"/>
+              <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent"></div>
+              <div class="absolute top-5 left-5 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-2xl">
+                {z.icon}
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 p-5 md:p-6 text-white">
+                <p class="text-xs tracking-[0.15em] uppercase font-semibold text-olive-300 mb-2">Zona 0{i + 1}</p>
+                <h3 class="font-display text-2xl md:text-3xl font-bold mb-2">{z.title}</h3>
+                <p class="text-white/80 font-light text-sm md:text-base">{z.desc}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="reveal-scale p-8 md:p-12 rounded-3xl bg-gradient-to-br from-olive-700 via-olive-800 to-olive-900 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div class="max-w-2xl text-center md:text-left">
+          <h3 class="font-display text-3xl md:text-4xl font-bold mb-3">¿Quieres visitar nuestro fundo?</h3>
+          <p class="text-white/80 font-light text-lg">Coordina una visita o solicita más información sobre nuestras operaciones de campo.</p>
+        </div>
+        <a href="/contacto" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-olive-800 font-bold uppercase tracking-wider text-sm hover:bg-olive-100 hover:-translate-y-1 transition-all duration-500">
+          Solicitar visita
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

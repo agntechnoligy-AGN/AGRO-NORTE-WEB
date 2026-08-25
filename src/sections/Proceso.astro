@@ -1,0 +1,131 @@
+---
+const processSteps = [
+  {
+    num: '01',
+    title: 'Preparación del suelo',
+    description: 'Análisis y preparación óptima de nuestros terrenos para asegurar la base más fértil.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+    </svg>`
+  },
+  {
+    num: '02',
+    title: 'Cultivo',
+    description: 'Cuidado permanente de nuestros campos y plantas. Monitoreo constante de cada ejemplar.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L12 22M12 2C8 6 6 10 6 14C6 18 9 22 12 22M12 2C16 6 18 10 18 14C18 18 15 22 12 22M4 12C8 10 16 10 20 12"/>
+    </svg>`
+  },
+  {
+    num: '03',
+    title: 'Riego eficiente',
+    description: 'Sistemas tecnológicos de riego controlado para el uso responsable del agua.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 14a3 3 0 003 3v0a3 3 0 003-3"/>
+    </svg>`
+  },
+  {
+    num: '04',
+    title: 'Monitoreo',
+    description: 'Seguimiento constante del desarrollo de nuestros cultivos con tecnología de precisión.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+    </svg>`
+  },
+  {
+    num: '05',
+    title: 'Cosecha',
+    description: 'Selección del fruto en el momento adecuado. Cosecha manual y respetuosa.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+    </svg>`
+  },
+  {
+    num: '06',
+    title: 'Selección & Distribución',
+    description: 'Control de calidad estricto y distribución logística a mercados nacionales e internacionales.',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+    </svg>`
+  }
+];
+---
+
+<section id="proceso" class="relative section-padding overflow-hidden bg-warm-white">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-olive-50 to-transparent blur-3xl pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12 mb-16 md:mb-20 text-center reveal">
+    <span class="section-label">Nuestro proceso</span>
+    <h2 class="section-title mb-6 mx-auto max-w-4xl">
+      Del campo a tu <span class="text-olive-700">mesa</span>
+    </h2>
+    <p class="section-subtitle mx-auto">
+      Cada paso está diseñado para asegurar la excelencia. Desde la tierra hasta la entrega final, cuidamos cada detalle.
+    </p>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+    <div class="hidden md:block absolute top-24 left-[8%] right-[8%] h-[2px] bg-gradient-to-r from-olive-200 via-olive-400 to-olive-200 z-0"></div>
+    <div class="hidden md:block absolute top-24 left-[8%] right-[8%] h-[2px] bg-gradient-to-r from-olive-500 via-olive-500 to-olive-500 z-0 origin-left scale-x-0 transition-transform duration-[2000ms] ease-out process-line"></div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {processSteps.map((step, i) => (
+        <div
+          class={`reveal group relative z-10`}
+          data-delay={i * 120}
+        >
+          <div class="relative h-full p-6 md:p-8 rounded-2xl bg-white border border-navy-900/5 shadow-lg shadow-navy-900/5 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-olive-900/10 hover:border-olive-200">
+            <div class="hidden md:flex absolute -top-14 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-warm-white items-center justify-center z-10 border-2 border-olive-200 group-hover:border-olive-500 group-hover:bg-olive-500 group-hover:text-white transition-all duration-500 process-dot">
+              <div class="w-5 h-5 rounded-full bg-olive-500 group-hover:bg-white transition-colors duration-500"></div>
+            </div>
+
+            <div class="flex items-start justify-between mb-6">
+              <span class="font-display text-5xl md:text-6xl font-bold text-olive-100 group-hover:text-olive-200 transition-colors duration-500 leading-none">
+                {step.num}
+              </span>
+              <div class="w-12 h-12 rounded-xl bg-olive-50 group-hover:bg-olive-600 text-olive-700 group-hover:text-white flex items-center justify-center transition-all duration-500">
+                <Fragment set:html={step.icon} />
+              </div>
+            </div>
+
+            <h3 class="text-xl md:text-2xl font-bold text-navy-900 mb-3 group-hover:text-olive-700 transition-colors duration-300">
+              {step.title}
+            </h3>
+            <p class="text-navy-700/80 font-light leading-relaxed">
+              {step.description}
+            </p>
+
+            <div class="mt-6 pt-6 border-t border-navy-900/5 flex items-center justify-between opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+              <span class="text-xs font-semibold uppercase tracking-[0.15em] text-olive-600">Paso {step.num}</span>
+              <svg class="w-5 h-5 text-olive-500 group-hover:translate-x-1 transition-transform duration-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    const processObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const line = entry.target.querySelector('.process-line');
+            if (line) {
+              setTimeout(() => {
+                (line as HTMLElement).style.transform = 'scaleX(1)';
+              }, 300);
+            }
+            processObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll('#proceso').forEach(s => processObserver.observe(s));
+  </script>
+</section>
