@@ -35,8 +35,13 @@ export type MediaRow = {
 
 /** URL pública para usar en <img> / <video> — prioriza bytes en BD */
 export function mediaPublicUrl(row: Pick<MediaRow, 'id' | 'storage' | 'file_path' | 'external_url' | 'media_key'>): string {
-  if (row.storage === 'url' && row.external_url) return row.external_url;
-  // Todo lo que vive en Postgres se sirve por la API
+  if (row.storage === 'url' && row.external_url) {
+    // Blob privado no se puede poner directo en <video src>; se sirve por API
+    if (row.external_url.includes('private.blob.vercel-storage.com')) {
+      return `/api/media/${row.media_key}`;
+    }
+    return row.external_url;
+  }
   if (row.storage === 'db') return `/api/media/${row.media_key}`;
   if (row.storage === 'file' && row.file_path) return row.file_path;
   return `/api/media/${row.media_key}`;

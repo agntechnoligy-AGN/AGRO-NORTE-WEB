@@ -13,6 +13,46 @@ function parseRange(rangeHeader: string | null, size: number): { start: number; 
   return { start, end };
 }
 
+function isPrivateVercelBlob(url: string) {
+  return url.includes('private.blob.vercel-storage.com');
+}
+
+async function proxyPrivateBlob(url: string, request: Request) {
+  const token = import.meta.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) {
+    return new Response('BLOB_READ_WRITE_TOKEN no configurado', { status: 500 });
+  }
+
+  const range = request.headers.get('range');
+  const upstream = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...(range ? { Range: range } : {})
+    }
+  });
+
+  if (!upstream.ok && upstream.status !== 206) {
+    const text = await upstream.text().catch(() => '');
+    console.error('[api/media] blob proxy', upstream.status, text.slice(0, 200));
+    return new Response('Error al leer Blob', { status: 502 });
+  }
+
+  const headers = new Headers();
+  const pass = ['content-type', 'content-length', 'content-range', 'accept-ranges', 'etag', 'last-modified'];
+  for (const h of pass) {
+    const v = upstream.headers.get(h);
+    if (v) headers.set(h, v);
+  }
+  if (!headers.has('Accept-Ranges')) headers.set('Accept-Ranges', 'bytes');
+  headers.set('Cache-Control', 'public, max-age=86400');
+  headers.set('CDN-Cache-Control', 'public, max-age=86400');
+
+  return new Response(upstream.body, {
+    status: upstream.status,
+    headers
+  });
+}
+
 export const GET: APIRoute = async ({ params, request }) => {
   const key = params.key;
   if (!key) return new Response('Not found', { status: 404 });
@@ -35,26 +75,29 @@ export const GET: APIRoute = async ({ params, request }) => {
     const row = meta[0];
     if (!row) return new Response('Not found', { status: 404 });
 
-    if (row.storage === 'url' && row.external_url) {
+    // URL pública externa
+    if (row.storage === 'url' && row.external_url && !isPrivateVercelBlob(row.external_url)) {
       return Response.redirect(row.external_url, 302);
+    }
+
+    // Vercel Blob privado → proxy autenticado (rápido, CDN Blob → cliente)
+    if (row.storage === 'url' && row.external_url && isPrivateVercelBlob(row.external_url)) {
+      return proxyPrivateBlob(row.external_url, request);
     }
 
     const size = Number(row.bytes) || 0;
     const mime = row.mime_type || 'application/octet-stream';
 
     if (size > 0) {
-      // Videos grandes: servir por Range (substring) para no cargar 386MB en memoria
-      const MAX_CHUNK = 2 * 1024 * 1024; // 2 MB
+      const MAX_CHUNK = 2 * 1024 * 1024;
       let range = parseRange(request.headers.get('range'), size);
       if (!range) {
-        // Sin Range: primer tramo (los players piden Range después)
         range = { start: 0, end: Math.min(size - 1, MAX_CHUNK - 1) };
       } else if (range.end - range.start + 1 > MAX_CHUNK) {
         range = { start: range.start, end: range.start + MAX_CHUNK - 1 };
       }
 
       const length = range.end - range.start + 1;
-      // substring en BYTEA es 1-indexado
       const chunks = await sql<{ chunk: Buffer }[]>`
         SELECT substring(file_data FROM ${range.start + 1} FOR ${length}) AS chunk
         FROM media
