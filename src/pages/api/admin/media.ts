@@ -122,18 +122,37 @@ export const PATCH: APIRoute = async ({ request, cookies }) => {
     const altText = body.alt_text != null ? String(body.alt_text) : null;
     const isActive = typeof body.is_active === 'boolean' ? body.is_active : null;
     const filePath = body.file_path != null ? String(body.file_path) : null;
+    const externalUrl = body.external_url != null ? String(body.external_url).trim() : null;
 
-    await sql`
-      UPDATE media SET
-        title = COALESCE(${title}, title),
-        section = COALESCE(${section}, section),
-        alt_text = COALESCE(${altText}, alt_text),
-        is_active = COALESCE(${isActive}, is_active),
-        file_path = COALESCE(${filePath}, file_path),
-        storage = CASE WHEN ${filePath} IS NOT NULL THEN 'file' ELSE storage END,
-        updated_at = NOW()
-      WHERE media_key = ${mediaKey}
-    `;
+    if (externalUrl) {
+      await sql`
+        UPDATE media SET
+          title = COALESCE(${title}, title),
+          section = COALESCE(${section}, section),
+          alt_text = COALESCE(${altText}, alt_text),
+          is_active = COALESCE(${isActive}, is_active),
+          storage = 'url',
+          external_url = ${externalUrl},
+          file_path = NULL,
+          file_data = NULL,
+          media_type = COALESCE(media_type, 'video'),
+          mime_type = COALESCE(mime_type, 'video/mp4'),
+          updated_at = NOW()
+        WHERE media_key = ${mediaKey}
+      `;
+    } else {
+      await sql`
+        UPDATE media SET
+          title = COALESCE(${title}, title),
+          section = COALESCE(${section}, section),
+          alt_text = COALESCE(${altText}, alt_text),
+          is_active = COALESCE(${isActive}, is_active),
+          file_path = COALESCE(${filePath}, file_path),
+          storage = CASE WHEN ${filePath} IS NOT NULL THEN 'file' ELSE storage END,
+          updated_at = NOW()
+        WHERE media_key = ${mediaKey}
+      `;
+    }
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,

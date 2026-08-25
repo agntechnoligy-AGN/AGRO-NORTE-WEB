@@ -1,4 +1,8 @@
 ---
+import { resolveImages } from '../lib/media';
+const media = await resolveImages(['logo']);
+const logoSrc = media.logo;
+
 const companyInfo = {
   name: 'Agro Norte Corp',
   email: 'informes@agronortecorp.pe',
@@ -96,14 +100,14 @@ const companyInfo = {
       <div class="lg:col-span-2 reveal">
         <div class="flex items-center gap-3 mb-6">
           <img
-            src="/images/logo-agn.png"
-            alt="Agro Norte Corp"
+            src={logoSrc}
+            alt="Agro Norte Corp S.A.C."
             class="h-12 w-auto object-contain rounded-lg bg-white p-1 shrink-0"
             width="48"
             height="48"
           />
           <div>
-            <h3 class="font-brand text-xl md:text-2xl font-extrabold tracking-[-0.02em] whitespace-nowrap">AGRO NORTE CORP</h3>
+            <h3 class="font-brand text-lg md:text-xl font-bold tracking-[0.04em] uppercase whitespace-nowrap">Agro Norte Corp S.A.C.</h3>
             <p class="text-xs tracking-[0.2em] uppercase text-olive-400 font-semibold">Agricultura sostenible</p>
           </div>
         </div>

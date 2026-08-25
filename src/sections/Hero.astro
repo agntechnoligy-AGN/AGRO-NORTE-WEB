@@ -1,24 +1,33 @@
 ---
-// Video hero original — sin imagen antigua de fondo
-const heroVideo = '/videos/hero.mp4';
-const heroPoster = '/images/hero-video-poster.jpg';
+import { resolveImages } from '../lib/media';
+const images = await resolveImages(['hero', 'heroVideo']);
+const heroPoster = images.hero || '/images/hero-video-poster.jpg';
+const heroVideo = images.heroVideo;
 ---
 
 <section id="inicio" class="relative w-full h-screen overflow-hidden bg-navy-950">
   <div id="hero-media" class="absolute inset-0">
     <div id="hero-image-wrap" class="absolute inset-0 bg-navy-950">
-      <video
-        id="hero-video"
-        class="absolute inset-0 w-full h-full object-cover"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-        poster={heroPoster}
-      >
-        <source src={heroVideo} type="video/mp4" />
-      </video>
+      {heroVideo ? (
+        <video
+          id="hero-video"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1400ms] ease-in-out"
+          autoplay
+          muted
+          playsinline
+          preload="auto"
+          poster={heroPoster}
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+      ) : (
+        <img
+          src={heroPoster}
+          alt="Agro Norte Corp S.A.C."
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+      )}
     </div>
     <div class="absolute inset-0 bg-gradient-to-b from-navy-950/35 via-navy-950/15 to-navy-950/55 pointer-events-none"></div>
   </div>
@@ -27,10 +36,10 @@ const heroPoster = '/images/hero-video-poster.jpg';
     <div id="hero-inner" class="max-w-5xl">
       <h1
         id="hero-title"
-        class="font-brand text-[clamp(1.35rem,5.2vw,4.25rem)] font-extrabold text-white mb-6 md:mb-8 whitespace-nowrap tracking-[-0.02em] leading-none animate-fade-in-up"
+        class="font-brand text-[clamp(1.05rem,4vw,3.35rem)] font-bold text-white mb-6 md:mb-8 whitespace-nowrap tracking-[0.06em] uppercase leading-none animate-fade-in-up"
         style="animation-delay: 0.4s; animation-fill-mode: both;"
       >
-        AGRO<span class="text-olive-400"> NORTE</span> CORP
+        Agro<span class="text-olive-400"> Norte</span> Corp S.A.C.
       </h1>
 
       <p
@@ -80,8 +89,10 @@ const heroPoster = '/images/hero-video-poster.jpg';
   if (heroVideo) {
     heroVideo.setAttribute('playsinline', '');
     heroVideo.setAttribute('webkit-playsinline', '');
+    heroVideo.loop = false;
     heroVideo.style.transform = 'translateZ(0)';
     heroVideo.style.backfaceVisibility = 'hidden';
+
     const tryPlay = () => {
       heroVideo.play().catch(() => {});
     };
@@ -90,6 +101,38 @@ const heroPoster = '/images/hero-video-poster.jpg';
       heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
       heroVideo.addEventListener('canplay', tryPlay, { once: true });
     }
+
+    // Loop suave: fundido a oscuro y reinicio (sin corte brusco)
+    const FADE_MS = 1400;
+    const LEAD_S = 1.5;
+    let fading = false;
+
+    function softRestart() {
+      if (fading) return;
+      fading = true;
+      heroVideo.style.opacity = '0';
+      window.setTimeout(() => {
+        try {
+          heroVideo.currentTime = 0.05;
+        } catch {
+          /* ignore seek errors */
+        }
+        heroVideo.play().catch(() => {});
+        requestAnimationFrame(() => {
+          heroVideo.style.opacity = '1';
+          window.setTimeout(() => {
+            fading = false;
+          }, FADE_MS + 80);
+        });
+      }, FADE_MS);
+    }
+
+    heroVideo.addEventListener('timeupdate', () => {
+      if (fading || !Number.isFinite(heroVideo.duration) || heroVideo.duration <= 0) return;
+      if (heroVideo.duration - heroVideo.currentTime <= LEAD_S) softRestart();
+    });
+
+    heroVideo.addEventListener('ended', softRestart);
   }
 
   function heroScrollEffect() {

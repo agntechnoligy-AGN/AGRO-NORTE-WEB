@@ -2,7 +2,8 @@ import { getMediaMap } from './db';
 
 /** Fallbacks locales (deploy / public/images) si la BD no responde */
 export const defaultImages = {
-  hero: '/images/hero.jpg',
+  logo: '/images/logo-agn.png',
+  hero: '/images/hero-video-poster.jpg',
   headerNosotros: '/images/fields.jpg',
   headerProductos: '/images/avocado.jpg',
   headerProceso: '/images/farm.jpg',
@@ -13,7 +14,7 @@ export const defaultImages = {
   orchard: '/images/orchard.jpg',
   avocadoOrchard: '/images/avocado.jpg',
   vineyard: '/images/vineyard.jpg',
-  farmAerial: '/images/hero.jpg',
+  farmAerial: '/images/hero-video-poster.jpg',
   greenFields: '/images/fields.jpg',
   irrigation: '/images/irrigation.jpg',
   tractor: '/images/tractor.jpg',
@@ -37,7 +38,7 @@ export const defaultImages = {
   gallery4: '/images/tech.jpg',
   gallery5: '/images/avocado.jpg',
   gallery6: '/images/team.jpg',
-  heroVideo: '/videos/hero.mp4'
+  heroVideo: '/api/media/heroVideo'
 } as const;
 
 export type ImageKey = keyof typeof defaultImages;

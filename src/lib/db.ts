@@ -33,12 +33,13 @@ export type MediaRow = {
   created_at: Date;
 };
 
-/** URL pública para usar en <img> / <video> */
+/** URL pública para usar en <img> / <video> — prioriza bytes en BD */
 export function mediaPublicUrl(row: Pick<MediaRow, 'id' | 'storage' | 'file_path' | 'external_url' | 'media_key'>): string {
   if (row.storage === 'url' && row.external_url) return row.external_url;
-  if (row.storage === 'file' && row.file_path) return row.file_path;
+  // Todo lo que vive en Postgres se sirve por la API
   if (row.storage === 'db') return `/api/media/${row.media_key}`;
-  return row.file_path || row.external_url || `/api/media/${row.media_key}`;
+  if (row.storage === 'file' && row.file_path) return row.file_path;
+  return `/api/media/${row.media_key}`;
 }
 
 export async function getMediaByKey(key: string): Promise<MediaRow | null> {

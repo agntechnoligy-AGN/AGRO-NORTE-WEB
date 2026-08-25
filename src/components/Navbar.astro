@@ -1,4 +1,9 @@
 ---
+import { resolveImages } from '../lib/media';
+
+const media = await resolveImages(['logo']);
+const logoSrc = media.logo;
+
 const navLinks = [
   { name: 'Inicio', href: '/' },
   { name: 'Productos', href: '/productos' },
@@ -35,21 +40,21 @@ function isActive(path: string) {
       ]}>
         <a href="/" class="flex items-center gap-3 md:gap-4 group min-w-0 shrink-0">
           <img
-            src="/images/logo-agn.png"
-            alt="Agro Norte Corp"
+            src={logoSrc}
+            alt="Agro Norte Corp S.A.C."
             class="h-10 md:h-11 xl:h-12 w-auto object-contain rounded-lg shadow-md shadow-navy-900/10 transition-transform duration-500 group-hover:scale-105 bg-white shrink-0"
             width="48"
             height="48"
           />
           <div class="flex items-center min-w-0">
             <span class:list={[
-              "font-brand text-base sm:text-lg md:text-xl xl:text-[1.35rem] font-extrabold transition-colors duration-700 tracking-[-0.02em] leading-none whitespace-nowrap nav-text-logo",
+              "font-brand text-sm sm:text-base md:text-lg xl:text-xl font-bold transition-colors duration-700 tracking-[0.04em] uppercase leading-none whitespace-nowrap nav-text-logo",
               isHomePage ? "text-white" : "text-navy-900"
             ]}>
-              AGRO NORTE<span class:list={[
+              Agro Norte<span class:list={[
                 "nav-text-sub",
                 isHomePage ? "text-olive-300" : "text-olive-700"
-              ]}> CORP</span>
+              ]}> Corp</span> S.A.C.
             </span>
           </div>
         </a>
@@ -125,14 +130,14 @@ function isActive(path: string) {
       <div class="flex items-center justify-between h-20 px-5 border-b border-navy-900/10">
         <a href="/" class="flex items-center gap-3">
           <img
-            src="/images/logo-agn.png"
-            alt="Agro Norte Corp"
+            src={logoSrc}
+            alt="Agro Norte Corp S.A.C."
             class="h-10 w-auto object-contain rounded-lg bg-white shadow-sm shrink-0"
             width="40"
             height="40"
           />
-          <span class="font-brand text-lg sm:text-xl font-extrabold text-navy-900 whitespace-nowrap tracking-[-0.02em]">
-            AGRO NORTE<span class="text-olive-700"> CORP</span>
+          <span class="font-brand text-base sm:text-lg font-bold text-navy-900 whitespace-nowrap tracking-[0.04em] uppercase">
+            Agro Norte<span class="text-olive-700"> Corp</span> S.A.C.
           </span>
         </a>
         <button id="close-menu-btn" class="p-2 text-navy-900" aria-label="Cerrar menú">

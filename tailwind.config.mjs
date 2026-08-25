@@ -55,7 +55,7 @@ export default {
       },
       fontFamily: {
         'display': ['"Playfair Display"', 'Georgia', 'serif'],
-        'brand': ['Manrope', 'system-ui', 'sans-serif'],
+        'brand': ['Archivo', 'system-ui', 'sans-serif'],
         'sans': ['Inter', 'system-ui', 'sans-serif']
       },
       animation: {
