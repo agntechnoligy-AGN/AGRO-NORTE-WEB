@@ -36,11 +36,25 @@ async function proxyPrivateBlob(url: string, request: Request) {
     return new Response('BLOB_READ_WRITE_TOKEN no configurado', { status: 500 });
   }
 
-  const range = request.headers.get('range');
+  // Nunca bajar el MP4 completo por la función: siempre Range (máx 2 MB)
+  const MAX_CHUNK = 2 * 1024 * 1024;
+  let rangeHeader = request.headers.get('range');
+  if (!rangeHeader) {
+    rangeHeader = `bytes=0-${MAX_CHUNK - 1}`;
+  } else {
+    const m = rangeHeader.match(/bytes=(\d+)-(\d*)/);
+    if (m) {
+      const start = parseInt(m[1], 10);
+      const end = m[2] ? parseInt(m[2], 10) : start + MAX_CHUNK - 1;
+      const safeEnd = Math.min(end, start + MAX_CHUNK - 1);
+      rangeHeader = `bytes=${start}-${safeEnd}`;
+    }
+  }
+
   const upstream = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
-      ...(range ? { Range: range } : {})
+      Range: rangeHeader
     }
   });
 
@@ -57,11 +71,13 @@ async function proxyPrivateBlob(url: string, request: Request) {
     if (v) headers.set(h, v);
   }
   if (!headers.has('Accept-Ranges')) headers.set('Accept-Ranges', 'bytes');
+  // Forzar 206 si el origen devolvió trozo
+  const status = upstream.status === 200 ? 206 : upstream.status;
   headers.set('Cache-Control', 'public, max-age=86400');
   headers.set('CDN-Cache-Control', 'public, max-age=86400');
 
   return new Response(upstream.body, {
-    status: upstream.status,
+    status,
     headers
   });
 }
