@@ -1,8 +1,16 @@
 ---
 import { resolveImages } from '../lib/media';
 const images = await resolveImages(['hero', 'heroVideo']);
-const heroPoster = images.hero || '/images/hero-video-poster.jpg';
-const heroVideo = images.heroVideo;
+
+// Local: video ORIGINAL directo desde /public (fluido).
+// Producción: URL desde Railway BD → /api/media/heroVideo
+const isDev = import.meta.env.DEV;
+const heroPoster = isDev
+  ? '/images/hero-video-poster.jpg'
+  : (images.hero || '/images/hero-video-poster.jpg');
+const heroVideo = isDev
+  ? '/videos/hero.mp4'
+  : (images.heroVideo || '/api/media/heroVideo');
 ---
 
 <section id="inicio" class="relative w-full h-screen overflow-hidden bg-navy-950">
@@ -15,7 +23,7 @@ const heroVideo = images.heroVideo;
           autoplay
           muted
           playsinline
-          preload="metadata"
+          preload={isDev ? 'auto' : 'metadata'}
           poster={heroPoster}
         >
           <source src={heroVideo} type="video/mp4" />
