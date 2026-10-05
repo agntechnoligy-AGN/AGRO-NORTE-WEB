@@ -2,9 +2,10 @@
 import { resolveImages } from '../lib/media';
 const images = await resolveImages(['hero', 'heroVideo']);
 
-// Video publicado con el sitio. El original de 386 MB no entra al dominio.
+// El MP4 vive en GitHub. Vercel rechaza el despliegue si el archivo va dentro del sitio.
 const heroPoster = images.hero || '/images/hero-video-poster.jpg';
-const heroVideo = '/videos/hero-web.mp4';
+const heroVideo =
+  'https://raw.githubusercontent.com/agntechnoligy-AGN/AGRO-NORTE-WEB/08a7eaa5ebce3a97bf10594be6c3aa117fd4ccf8/public/videos/hero-web.mp4';
 ---
 
 <section id="inicio" class="relative w-full h-screen overflow-hidden bg-navy-950">
@@ -21,7 +22,6 @@ const heroVideo = '/videos/hero-web.mp4';
           poster={heroPoster}
         >
           <source src={heroVideo} type="video/mp4" />
-          <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
       ) : (
         <img
