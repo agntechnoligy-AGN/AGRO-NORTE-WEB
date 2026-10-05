@@ -13,9 +13,10 @@ dist/
 public/uploads/*
 !public/uploads/.gitkeep
 
-# Videos grandes (GitHub máx. 100 MB). El hero.mp4 (~386 MB) se despliega aparte.
+# El original (~386 MB) no entra a GitHub. hero-web.mp4 sí, para el dominio.
 public/videos/*
 !public/videos/.gitkeep
+!public/videos/hero-web.mp4
 
 # OS / IDE
 .DS_Store

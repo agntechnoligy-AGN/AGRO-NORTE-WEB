@@ -6,10 +6,17 @@ if (!connectionString) {
   console.warn('[db] DATABASE_URL no está definida. Revisa tu archivo .env');
 }
 
+function postgresSsl(url: string | undefined) {
+  if (!url) return false;
+  if (url.includes('localhost') || url.includes('127.0.0.1')) return false;
+  // El proxy público de Railway cierra el handshake TLS (ECONNRESET).
+  // La conexión en claro sí llega a Postgres.
+  if (url.includes('proxy.rlwy.net')) return false;
+  return { rejectUnauthorized: false } as const;
+}
+
 export const sql = postgres(connectionString || 'postgresql://invalid', {
-  ssl: connectionString?.includes('localhost') || connectionString?.includes('127.0.0.1')
-    ? false
-    : { rejectUnauthorized: false },
+  ssl: postgresSsl(connectionString),
   max: 5,
   idle_timeout: 20,
   connect_timeout: 30

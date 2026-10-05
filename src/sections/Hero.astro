@@ -2,15 +2,9 @@
 import { resolveImages } from '../lib/media';
 const images = await resolveImages(['hero', 'heroVideo']);
 
-// Local: video ORIGINAL directo desde /public (fluido).
-// Producción: URL desde Railway BD → /api/media/heroVideo
-const isDev = import.meta.env.DEV;
-const heroPoster = isDev
-  ? '/images/hero-video-poster.jpg'
-  : (images.hero || '/images/hero-video-poster.jpg');
-const heroVideo = isDev
-  ? '/videos/hero.mp4'
-  : (images.heroVideo || '/api/media/heroVideo');
+// Video publicado con el sitio. El original de 386 MB no entra al dominio.
+const heroPoster = images.hero || '/images/hero-video-poster.jpg';
+const heroVideo = '/videos/hero-web.mp4';
 ---
 
 <section id="inicio" class="relative w-full h-screen overflow-hidden bg-navy-950">
@@ -23,10 +17,11 @@ const heroVideo = isDev
           autoplay
           muted
           playsinline
-          preload={isDev ? 'auto' : 'metadata'}
+          preload="auto"
           poster={heroPoster}
         >
           <source src={heroVideo} type="video/mp4" />
+          <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
       ) : (
         <img
