@@ -17,10 +17,20 @@ function postgresSsl(url: string | undefined) {
 
 export const sql = postgres(connectionString || 'postgresql://invalid', {
   ssl: postgresSsl(connectionString),
-  max: 5,
-  idle_timeout: 20,
-  connect_timeout: 30
+  max: 1,
+  idle_timeout: 5,
+  connect_timeout: 2
 });
+
+let dbDownUntil = 0;
+
+export function isDbDown() {
+  return !connectionString || Date.now() < dbDownUntil;
+}
+
+export function markDbDown() {
+  dbDownUntil = Date.now() + 60_000;
+}
 
 export type MediaRow = {
   id: number;
@@ -55,6 +65,7 @@ export function mediaPublicUrl(row: Pick<MediaRow, 'id' | 'storage' | 'file_path
 }
 
 export async function getMediaByKey(key: string): Promise<MediaRow | null> {
+  if (isDbDown()) return null;
   const rows = await sql<MediaRow[]>`
     SELECT id, media_key, title, section, media_type, mime_type, filename, alt_text,
            storage, file_path, external_url, sort_order, is_active, updated_at, created_at
@@ -74,8 +85,28 @@ export async function getAllMedia(): Promise<MediaRow[]> {
   `;
 }
 
+let dbProbe: Promise<boolean> | null = null;
+
+/** Una sola prueba por tanda. Si Postgres no responde, el resto de la página no espera. */
+function dbReachable(): Promise<boolean> {
+  if (isDbDown()) return Promise.resolve(false);
+  if (!dbProbe) {
+    dbProbe = sql`SELECT 1`
+      .then(() => true)
+      .catch((err) => {
+        markDbDown();
+        console.error('[db] unreachable:', err);
+        return false;
+      })
+      .finally(() => {
+        dbProbe = null;
+      });
+  }
+  return dbProbe;
+}
+
 export async function getMediaMap(keys: string[]): Promise<Record<string, string>> {
-  if (!keys.length) return {};
+  if (!keys.length || !(await dbReachable())) return {};
   try {
     const rows = await sql<MediaRow[]>`
       SELECT id, media_key, storage, file_path, external_url
@@ -88,6 +119,7 @@ export async function getMediaMap(keys: string[]): Promise<Record<string, string
     }
     return map;
   } catch (err) {
+    markDbDown();
     console.error('[db] getMediaMap failed:', err);
     return {};
   }

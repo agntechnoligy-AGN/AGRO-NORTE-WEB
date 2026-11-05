@@ -1,0 +1,340 @@
+---
+interface Feature {
+  label: string;
+  desc: string;
+}
+
+interface Props {
+  name: string;
+  cutout: string;
+  tagline: string;
+  description: string;
+  features: Feature[];
+  tone: 'palta' | 'uva';
+  href: string;
+}
+
+const {
+  name,
+  cutout,
+  tagline,
+  description,
+  features,
+  tone,
+  href
+} = Astro.props;
+---
+
+<article
+  class:list={['stage', tone === 'uva' ? 'stage-uva' : 'stage-palta']}
+  data-stage
+  tabindex="0"
+  aria-expanded="false"
+>
+  <div class="stage-tilt">
+    <div class="stage-visual">
+      <div class="stage-glow" aria-hidden="true"></div>
+      <div class="stage-floor" aria-hidden="true"></div>
+      <img class="stage-fruit" src={cutout} alt="" width="640" height="640" />
+    </div>
+    <div class="stage-copy">
+      <span class="stage-badge">{tone === 'uva' ? 'Uva de mesa' : 'Palta de exportación'}</span>
+      <h3 class="stage-title">{name}</h3>
+      <p class="stage-hint">Pasa el cursor o toca para ver los detalles</p>
+      <div class="stage-details">
+        <p class="stage-tagline">{tagline}</p>
+        <p class="stage-desc">{description}</p>
+        <ul class="stage-specs">
+          {features.map((feature) => (
+            <li>
+              <span>{feature.label}</span>
+              <strong>{feature.desc}</strong>
+            </li>
+          ))}
+        </ul>
+        <a class="stage-link" href={href}>
+          Detalles
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .stage {
+    position: relative;
+    perspective: 1400px;
+    min-height: 560px;
+    cursor: pointer;
+    outline: none;
+  }
+  .stage:focus-visible .stage-tilt {
+    box-shadow: 0 0 0 3px #95b76a, 0 28px 50px rgba(26, 36, 17, 0.16);
+  }
+  .stage-tilt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 560px;
+    border-radius: 2rem;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.18s linear, box-shadow 0.4s ease;
+    box-shadow: 0 24px 50px rgba(26, 36, 17, 0.12);
+    background:
+      radial-gradient(ellipse at 50% 32%, #fffdf8 0%, #f3ead8 46%, #e4d3b4 100%);
+  }
+  .stage-uva .stage-tilt {
+    background:
+      radial-gradient(ellipse at 50% 36%, #fbf8ff 0%, #e7dced 48%, #cbb8dc 100%);
+  }
+  .stage-visual {
+    position: relative;
+    height: 340px;
+    flex: none;
+  }
+  .stage-glow {
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    top: 18%;
+    height: 58%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(149, 183, 106, 0.45), transparent 68%);
+    filter: blur(8px);
+  }
+  .stage-uva .stage-glow {
+    background: radial-gradient(circle, rgba(134, 97, 67, 0.28), transparent 68%);
+  }
+  .stage-floor {
+    position: absolute;
+    left: 22%;
+    right: 22%;
+    bottom: 8%;
+    height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(38, 51, 76, 0.28), transparent 70%);
+    filter: blur(2px);
+    transition: transform 0.55s ease, opacity 0.55s ease;
+  }
+  .stage-fruit {
+    position: absolute;
+    left: 50%;
+    top: 4%;
+    width: min(86%, 390px);
+    height: auto;
+    transform: translateX(-50%) translateY(0) rotateZ(-3deg);
+    transform-origin: center center;
+    filter: drop-shadow(0 28px 18px rgba(26, 36, 17, 0.28));
+    transition: transform 0.55s ease, filter 0.55s ease;
+    animation: fruit-float 5.5s ease-in-out infinite;
+    pointer-events: none;
+    user-select: none;
+  }
+  .stage-uva .stage-fruit {
+    top: 2%;
+    width: min(68%, 300px);
+    animation-delay: -1.4s;
+  }
+  .stage-copy {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+    padding: 0.2rem 1.4rem 1.5rem;
+    color: #26334c;
+  }
+  .stage-badge {
+    display: inline-flex;
+    margin-bottom: 0.45rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #48612f;
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .stage-uva .stage-badge {
+    background: #6c4f3a;
+  }
+  .stage-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .stage-hint {
+    margin-top: 0.55rem;
+    color: rgba(38, 51, 76, 0.62);
+    font-size: 0.92rem;
+    font-weight: 400;
+  }
+  .stage-details {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(16px);
+    transition: max-height 0.55s ease, opacity 0.4s ease, transform 0.45s ease, margin 0.45s ease;
+  }
+  .stage-tagline {
+    margin-top: 0.7rem;
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: #48612f;
+  }
+  .stage-uva .stage-tagline {
+    color: #6c4f3a;
+  }
+  .stage-desc {
+    margin-top: 0.45rem;
+    max-width: 36rem;
+    color: rgba(38, 51, 76, 0.82);
+    font-weight: 300;
+    line-height: 1.55;
+  }
+  .stage-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+  }
+  .stage-specs li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(72, 97, 47, 0.12);
+    box-shadow: 0 8px 16px rgba(26, 36, 17, 0.05);
+  }
+  .stage-uva .stage-specs li {
+    border-color: rgba(108, 79, 58, 0.14);
+  }
+  .stage-specs span {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(38, 51, 76, 0.55);
+  }
+  .stage-specs strong {
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+  .stage-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    padding: 0.75rem 1rem;
+    background: #26334c;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .stage-link svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  .stage:hover .stage-details,
+  .stage.is-open .stage-details,
+  .stage:focus-visible .stage-details {
+    max-height: 28rem;
+    margin-top: 0.2rem;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stage:hover .stage-hint,
+  .stage.is-open .stage-hint,
+  .stage:focus-visible .stage-hint {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+  .stage:hover .stage-fruit,
+  .stage.is-open .stage-fruit,
+  .stage:focus-visible .stage-fruit {
+    animation: none;
+    transform: translateX(-50%) translateY(-10px) rotateY(-16deg) rotateZ(-7deg) scale(0.92);
+  }
+  .stage:hover .stage-floor,
+  .stage.is-open .stage-floor {
+    transform: scaleX(0.72);
+    opacity: 0.55;
+  }
+  @keyframes fruit-float {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotateZ(-3deg); }
+    50% { transform: translateX(-50%) translateY(-14px) rotateZ(2deg); }
+  }
+  @media (max-width: 767px) {
+    .stage,
+    .stage-tilt {
+      min-height: 520px;
+    }
+    .stage-specs {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage-fruit {
+      animation: none;
+    }
+    .stage-tilt,
+    .stage-details,
+    .stage-fruit,
+    .stage-floor {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function bindStage(card: HTMLElement) {
+    if (card.dataset.bound === '1') return;
+    card.dataset.bound = '1';
+    const tilt = card.querySelector('.stage-tilt') as HTMLElement | null;
+    if (!tilt) return;
+
+    const setOpen = (open: boolean) => {
+      card.classList.toggle('is-open', open);
+      card.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    card.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width - 0.5;
+      const py = (event.clientY - rect.top) / rect.height - 0.5;
+      tilt.style.transform = `rotateX(${(-py * 12).toFixed(2)}deg) rotateY(${(px * 16).toFixed(2)}deg)`;
+    });
+
+    card.addEventListener('pointerleave', () => {
+      tilt.style.transform = '';
+    });
+
+    card.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest('a')) return;
+      setOpen(!card.classList.contains('is-open'));
+    });
+
+    card.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      setOpen(!card.classList.contains('is-open'));
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-stage]').forEach(bindStage);
+</script>

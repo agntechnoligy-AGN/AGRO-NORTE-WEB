@@ -9,5 +9,12 @@ export default defineConfig({
   server: {
     port: 4321,
     host: true
+  },
+  vite: {
+    server: {
+      watch: {
+        ignored: ['**/.agents/**', '**/.cursor/**', '**/.impeccable/**']
+      }
+    }
   }
 });

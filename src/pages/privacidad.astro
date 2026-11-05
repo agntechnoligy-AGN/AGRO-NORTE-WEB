@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { resolveImages } from '../lib/media';
+
+const images = await resolveImages(['headerContacto']);
+const headerImg = images.headerContacto;
+const updated = '5 de noviembre de 2026';
+---
+
+<BaseLayout
+  title="Política de privacidad | Agro Norte Corp"
+  description="Política de privacidad del sitio de Agro Norte Corp S.A.C. y de la aplicación Mi AgroNorte."
+>
+  <section class="relative h-[42vh] min-h-[280px] overflow-hidden flex items-end">
+    <img src={headerImg} alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-warm-white via-navy-950/45 to-navy-950/75"></div>
+    <div class="relative max-w-3xl mx-auto px-5 md:px-8 w-full pb-12">
+      <h1 class="font-display text-4xl md:text-6xl font-bold text-white leading-tight">Política de privacidad</h1>
+      <p class="mt-4 text-lg text-white/85 font-light">Agro Norte Corp S.A.C. · Actualizada el {updated}</p>
+    </div>
+  </section>
+
+  <article class="max-w-3xl mx-auto px-5 md:px-8 py-14 md:py-20 text-navy-800 text-base md:text-lg leading-relaxed space-y-12">
+    <section class="space-y-4">
+      <p>
+        Esta página es pública. Cubre el sitio web de Agro Norte Corp S.A.C. y la aplicación
+        <strong>Mi AgroNorte</strong> (Android, identificador <span class="font-medium">com.agronorte.miagronorte</span>).
+        Responsable: Agro Norte Corp S.A.C. Contacto: <a class="text-olive-700 underline underline-offset-4" href="mailto:informes@agronortecorp.pe">informes@agronortecorp.pe</a>.
+      </p>
+      <p>No vendemos datos personales. No mostramos publicidad de terceros en el sitio ni en la app.</p>
+    </section>
+
+    <section id="sitio" class="space-y-4">
+      <h2 class="font-display text-3xl md:text-4xl font-semibold text-navy-900">Sitio web</h2>
+      <p>
+        El sitio presenta la empresa, sus cultivos y un formulario de contacto. Si escribes, el formulario abre tu correo
+        con tu nombre, empresa, correo, asunto y mensaje. Ese envío lo haces tú desde tu programa de correo;
+        el sitio no guarda una copia en una base de datos.
+      </p>
+      <p>
+        El acceso de administración del sitio usa una cookie de sesión solo para el personal autorizado. El sitio público
+        no usa cookies de seguimiento ni herramientas de analítica.
+      </p>
+    </section>
+
+    <section id="app" class="space-y-4">
+      <h2 class="font-display text-3xl md:text-4xl font-semibold text-navy-900">Aplicación Mi AgroNorte</h2>
+      <p>
+        Mi AgroNorte es de uso laboral. Solo entra un colaborador con cuenta entregada por la empresa. Sirve para consultar
+        boletas, asistencia, comunicados, fotocheck y transporte, y para mantener el perfil de trabajo.
+      </p>
+
+      <h3 class="font-display text-2xl font-semibold text-navy-900 pt-2">Datos que trata la app</h3>
+      <ul class="list-disc pl-5 space-y-2">
+        <li>Cuenta: documento de identidad, nombre y contraseña, para identificarte y entrar.</li>
+        <li>Datos laborales: boletas, asistencia, comunicados, fotocheck, transporte y los datos de perfil ligados a tu ficha.</li>
+        <li>Foto de perfil y firma, si las registras. La cámara se usa para la foto y para leer el código del transporte. La cámara no queda grabando.</li>
+        <li>Notificaciones de la empresa en el teléfono, si las autorizas.</li>
+        <li>Huella o biometría del dispositivo, solo si tú activas el ingreso con huella. La huella no sale del teléfono. En el aparato queda guardada la clave de acceso para volver a entrar después de esa comprobación. Puedes quitarla desde el perfil.</li>
+      </ul>
+      <p>La app no pide tu ubicación. No lee tus contactos, tus mensajes ni tu galería completa.</p>
+
+      <h3 class="font-display text-2xl font-semibold text-navy-900 pt-2">Para qué se usan</h3>
+      <p>
+        Esos datos se usan para operar la relación laboral: identificarte, mostrarte tu información, avisarte comunicados
+        y registrar lo que la empresa te pide dentro de la app (foto, firma, transporte). No se usan para publicidad ni para
+        venderlos.
+      </p>
+
+      <h3 class="font-display text-2xl font-semibold text-navy-900 pt-2">Con quién se comparten</h3>
+      <p>
+        Los datos se tratan dentro de Agro Norte Corp S.A.C. y de los sistemas que la empresa usa para nómina, asistencia
+        y comunicaciones internas. No se ceden a anunciantes. Un proveedor técnico solo los ve si hace falta para mantener
+        el servicio, y con la misma obligación de reserva.
+      </p>
+
+      <h3 class="font-display text-2xl font-semibold text-navy-900 pt-2">Cuánto tiempo y cómo pedir un cambio</h3>
+      <p>
+        La cuenta y los documentos laborales se conservan el tiempo que exige la relación de trabajo y la ley peruana de
+        protección de datos personales. Para corregir o pedir la eliminación de un dato que no debamos seguir guardando,
+        escribe a Recursos Humanos o a TIC, o al correo de esta página. Si dejas la empresa, el acceso a la app se cierra.
+      </p>
+
+      <h3 class="font-display text-2xl font-semibold text-navy-900 pt-2">Seguridad</h3>
+      <p>
+        El ingreso es con tu cuenta. No compartas la contraseña. Si crees que otra persona la usa, avisa a TIC. La biometría,
+        si la activas, se comprueba en tu teléfono.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="font-display text-3xl md:text-4xl font-semibold text-navy-900">Cambios</h2>
+      <p>
+        Si esta política cambia, se publica en esta misma dirección con la fecha nueva. El uso del sitio o de la app después
+        de ese cambio indica que conoces el texto vigente.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

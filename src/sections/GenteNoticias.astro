@@ -2,7 +2,35 @@
 import { resolveImages } from '../lib/media';
 const images = await resolveImages();
 
-const heroImg = images.workers;
+const heroImg = images.greenFields;
+const avatars = [images.workers, images.team, images.harvestHands];
+
+const stats = [
+  {
+    num: '+450',
+    title: 'Colaboradores',
+    desc: 'Comprometidos con el crecimiento',
+    icon: 'people'
+  },
+  {
+    num: '100%',
+    title: 'Pasión por el campo',
+    desc: 'Nuestra energía en cada proceso',
+    icon: 'plant'
+  },
+  {
+    num: '+25%',
+    title: 'Productividad',
+    desc: 'Resultados que generan futuro',
+    icon: 'chart'
+  },
+  {
+    num: 'Todo',
+    title: 'A lo correcto',
+    desc: 'Integridad en cada paso',
+    icon: 'shield'
+  }
+];
 
 const gallery = [
   { img: images.gallery1, span: 'col-span-1 row-span-1' },
@@ -15,60 +43,96 @@ const gallery = [
 ---
 
 <section id="nuestra-gente" class="relative section-padding overflow-hidden bg-warm-white">
-  <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-olive-50 to-transparent pointer-events-none"></div>
-
   <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
-    <div class="grid lg:grid-cols-5 gap-10 lg:gap-16 items-center mb-16 md:mb-20">
-      <div class="lg:col-span-2 reveal">
-        <div class="image-mask relative rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10 aspect-[4/3]">
-          <img src={heroImg} alt="Equipo de Agro Norte Corp" class="w-full h-full object-cover" loading="lazy"/>
-          <div class="absolute inset-0 bg-gradient-to-tr from-navy-950/20 to-transparent pointer-events-none"></div>
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-16 md:mb-20">
+      <div class="relative reveal">
+        <svg class="absolute -right-3 md:-right-8 top-[28%] w-20 md:w-28 h-auto text-olive-500/55 pointer-events-none z-10" viewBox="0 0 120 180" fill="currentColor" aria-hidden="true">
+          <path d="M62 8c28 22 48 58 48 92 0 38-22 68-50 80-4-18-6-38-4-58 18-8 30-28 30-50 0-22-14-42-24-64z"/>
+          <path d="M58 18C32 42 14 78 14 110c0 36 20 64 46 76 3-16 5-36 3-54C46 124 34 104 34 82c0-22 12-42 24-64z" opacity=".85"/>
+          <path d="M60 88v84" stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+
+        <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-navy-900/10 aspect-[5/4]">
+          <img src={heroImg} alt="Campos de Agro Norte Corp" class="w-full h-full object-cover" loading="lazy"/>
+          <div class="absolute inset-0 bg-gradient-to-tr from-navy-950/25 via-transparent to-transparent"></div>
+          <p class="absolute top-8 left-8 font-display italic text-white text-3xl md:text-4xl leading-tight drop-shadow-lg max-w-[12rem]">
+            “Cultivando un mejor mañana”
+          </p>
         </div>
-        <div class="relative -mt-8 ml-4 md:ml-8 -mr-4 md:-mr-12 rounded-2xl bg-white p-5 md:p-6 shadow-xl shadow-navy-900/10 max-w-sm border border-navy-900/5">
-          <div class="flex items-center gap-4 mb-3">
-            <div class="flex -space-x-3">
-              {['bg-olive-400','bg-earth-400','bg-olive-600'].map((c) => (
-                <div class={`w-10 h-10 rounded-full border-2 border-white ${c}`}></div>
-              ))}
-            </div>
-            <div>
-              <p class="font-bold text-navy-900">+450 colaboradores</p>
-              <p class="text-xs text-navy-600 font-light">Comprometidos con la excelencia</p>
-            </div>
+
+        <div class="relative z-20 -mt-10 ml-5 md:ml-8 mr-8 md:mr-16 rounded-[1.75rem] bg-white px-5 py-4 shadow-xl shadow-navy-900/10 border border-navy-900/5 flex items-center gap-4">
+          <div class="flex -space-x-3 shrink-0">
+            {avatars.map((src) => (
+              <img src={src} alt="" class="w-11 h-11 rounded-full border-[3px] border-white object-cover object-top" loading="lazy"/>
+            ))}
           </div>
-          <div class="w-full h-2 rounded-full bg-navy-100 overflow-hidden">
-            <div class="h-full w-[85%] bg-gradient-to-r from-olive-500 to-olive-400 rounded-full"></div>
+          <div>
+            <p class="font-bold text-navy-900 leading-tight">+450 colaboradores</p>
+            <p class="text-sm text-navy-600 font-light">Comprometidos con la tierra</p>
           </div>
         </div>
       </div>
 
-      <div class="lg:col-span-3 reveal-right" data-delay="100">
-        <span class="section-label">Nuestra gente</span>
-        <h2 class="section-title mb-6 md:mb-8 text-balance">
+      <div class="reveal-right" data-delay="80">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-label !mb-0">Nuestra gente</span>
+          <span class="h-px w-10 bg-olive-500"></span>
+        </div>
+        <h2 class="section-title mb-5 text-balance">
           Detrás de cada fruto,<br/>
-          <span class="text-olive-700 font-display italic">hay un gran equipo.</span>
+          <span class="text-olive-700 inline-flex items-center gap-2">
+            hay un gran equipo.
+            <svg class="w-7 h-7 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 3c4.5 3.2 7.5 8 7.5 12.2 0 4.2-2.4 7.3-5.8 8.8.2-2.4.1-5-.4-7.4 2.2-.8 3.7-3 3.7-5.5 0-2.3-1.4-4.6-2.8-8.1C12.8 5.6 12 4.2 12 3z"/>
+              <path d="M12 3C7.5 6.2 4.5 11 4.5 15.2c0 4.2 2.4 7.3 5.8 8.8-.2-2.4-.1-5 .4-7.4C8.5 15.8 7 13.6 7 11.1c0-2.3 1.4-4.6 2.8-8.1C11.2 5.6 12 4.2 12 3z" opacity=".85"/>
+            </svg>
+          </span>
         </h2>
-        <p class="section-subtitle mb-10">
-          Contamos con un equipo comprometido, especializado y apasionado que día a día trabaja para producir lo mejor de nuestra tierra. Personas con valores, experiencia y dedicación.
+        <p class="text-navy-700/80 font-light leading-relaxed mb-8 max-w-xl">
+          Contamos con un equipo comprometido, especializado y apasionado que día a día trabaja para producir lo mejor de nuestra tierra. Personas con valores, experiencia y dedicación, haciendo posible un futuro más sostenible.
         </p>
-        <div class="grid sm:grid-cols-3 gap-5 mb-10">
-          {[
-            { num: '100%', label: 'Personal capacitado' },
-            { num: '+25%', label: 'Personal técnico' },
-            { num: 'Todo', label: 'Año completo' }
-          ].map((s, i) => (
-            <div class="p-5 rounded-2xl bg-white border border-navy-900/5 shadow-sm reveal-scale" data-delay={200 + i * 80}>
-              <p class="font-display text-3xl md:text-4xl font-bold text-olive-700 mb-1">{s.num}</p>
-              <p class="text-sm text-navy-700 font-light leading-snug">{s.label}</p>
+
+        <div class="grid grid-cols-2 gap-3 mb-8">
+          {stats.map((s, i) => (
+            <div class="p-4 md:p-5 rounded-2xl bg-white border border-navy-900/5 shadow-sm reveal-scale" data-delay={120 + i * 60}>
+              {s.icon === 'people' && (
+                <svg class="w-6 h-6 text-olive-600 mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              )}
+              {s.icon === 'plant' && (
+                <svg class="w-6 h-6 text-olive-600 mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V9m0 0C8 9 5 6 5 3c4 0 7 3 7 6zm0 0c4 0 7-3 7-6-4 0-7 3-7 6zM5 21h14"/></svg>
+              )}
+              {s.icon === 'chart' && (
+                <svg class="w-6 h-6 text-olive-600 mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l6-6 4 4 8-8M13 7h8v8"/></svg>
+              )}
+              {s.icon === 'shield' && (
+                <svg class="w-6 h-6 text-olive-600 mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              )}
+              <p class="font-display text-2xl md:text-3xl font-bold text-olive-700 leading-none mb-1">{s.num}</p>
+              <p class="text-sm font-semibold text-navy-900">{s.title}</p>
+              <p class="text-xs text-navy-600 font-light mt-0.5">{s.desc}</p>
             </div>
           ))}
         </div>
-        <a href="/contacto" class="btn-primary">
-          Únete a nuestro equipo
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
+
+        <div class="flex flex-wrap items-center gap-5">
+          <a href="/contacto" class="btn-primary !bg-olive-800 hover:!bg-olive-900 rounded-full">
+            Únete a nuestro equipo
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+          <div class="flex items-center gap-4">
+            <span class="hidden sm:block w-px h-10 bg-navy-900/15"></span>
+            <p class="text-sm text-navy-700/70 font-light italic leading-snug">
+              Personas que cultivan<br/>un futuro mejor
+            </p>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-olive-300"></span>
+              <span class="w-2 h-2 rounded-full bg-olive-500"></span>
+              <span class="w-2 h-2 rounded-full bg-olive-700"></span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 

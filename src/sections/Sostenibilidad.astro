@@ -40,14 +40,6 @@ const sustainabilityItems = [
     desc: 'Condiciones justas y desarrollo para nuestros colaboradores.'
   }
 ];
-
-const stats = [
-  { num: 1200, prefix: '+', suffix: ' ha', label: 'Área agrícola' },
-  { num: 2, prefix: '', suffix: '', label: 'Cultivos principales' },
-  { num: 450, prefix: '+', suffix: '', label: 'Trabajadores' },
-  { num: 15, prefix: '+', suffix: ' años', label: 'Experiencia' },
-  { num: 20, prefix: '+', suffix: '', label: 'Mercados internacionales' }
-];
 ---
 
 <section id="sostenibilidad" class="relative overflow-hidden">
@@ -84,40 +76,6 @@ const stats = [
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="relative bg-olive-800">
-    <div class="absolute inset-0 bg-gradient-to-b from-olive-900 to-olive-800"></div>
-    <div class="relative max-w-7xl mx-auto px-5 md:px-8 lg:px-12 py-16 md:py-20">
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
-        {stats.map((stat, i) => (
-          <div
-            class="reveal text-center"
-            data-delay={i * 80}
-          >
-            <div class="relative mb-3 md:mb-4">
-              <svg class="absolute -top-2 -left-2 w-8 h-8 text-olive-600/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                <circle cx="12" cy="12" r="10"/>
-                <circle cx="12" cy="12" r="6" opacity="0.6"/>
-              </svg>
-              <div class="relative">
-                <p
-                  class="counter-animate font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-none"
-                  data-target={stat.num}
-                  data-prefix={stat.prefix}
-                  data-suffix={stat.suffix}
-                  data-duration="2200"
-                >
-                  {stat.prefix}0{stat.suffix}
-                </p>
-              </div>
-            </div>
-            <div class="w-10 h-[2px] bg-olive-500 mx-auto mb-3 rounded-full"></div>
-            <p class="text-sm md:text-base text-olive-200 font-light tracking-wide">{stat.label}</p>
-          </div>
-        ))}
       </div>
     </div>
   </div>

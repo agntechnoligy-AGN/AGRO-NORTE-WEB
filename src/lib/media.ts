@@ -6,7 +6,7 @@ export const defaultImages = {
   hero: '/images/hero-video-poster.jpg',
   headerNosotros: '/images/fields.jpg',
   headerProductos: '/images/avocado.jpg',
-  headerProceso: '/images/farm.jpg',
+  headerProceso: '/images/grapes.jpg',
   headerSostenibilidad: '/images/irrigation.jpg',
   headerFundo: '/images/fields.jpg',
   headerNoticias: '/images/workers.jpg',
@@ -40,6 +40,21 @@ export const defaultImages = {
   gallery6: '/images/team.jpg',
   heroVideo: '/api/media/heroVideo'
 } as const;
+
+/** MP4 del hero. Vive en GitHub porque Vercel rechaza el archivo dentro del sitio. */
+export const heroVideoUrl =
+  'https://raw.githubusercontent.com/agntechnoligy-AGN/AGRO-NORTE-WEB/08a7eaa5ebce3a97bf10594be6c3aa117fd4ccf8/public/videos/hero-web.mp4';
+
+/** Archivo público si Postgres no responde. Evita un 500 en /api/media. */
+export function staticMediaPath(key: string): string | null {
+  if (key === 'heroVideo') return heroVideoUrl;
+  if (Object.prototype.hasOwnProperty.call(defaultImages, key)) {
+    const url = defaultImages[key as keyof typeof defaultImages];
+    if (url.startsWith('/api/')) return null;
+    return url;
+  }
+  return null;
+}
 
 export type ImageKey = keyof typeof defaultImages;
 

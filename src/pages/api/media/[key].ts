@@ -1,5 +1,12 @@
 import type { APIRoute } from 'astro';
-import { sql } from '../../../lib/db';
+import { isDbDown, markDbDown, sql } from '../../../lib/db';
+import { staticMediaPath } from '../../../lib/media';
+
+function fallbackResponse(key: string, request: Request) {
+  const path = staticMediaPath(key);
+  if (!path) return new Response('Not found', { status: 404 });
+  return Response.redirect(new URL(path, request.url), 302);
+}
 
 export const prerender = false;
 
@@ -85,6 +92,7 @@ async function proxyPrivateBlob(url: string, request: Request) {
 export const GET: APIRoute = async ({ params, request }) => {
   const key = params.key;
   if (!key) return new Response('Not found', { status: 404 });
+  if (isDbDown()) return fallbackResponse(key, request);
 
   try {
     const meta = await sql<{
@@ -159,6 +167,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     return new Response('No file data', { status: 404 });
   } catch (err) {
     console.error('[api/media]', err);
-    return new Response('Server error', { status: 500 });
+    markDbDown();
+    return fallbackResponse(key, request);
   }
 };

@@ -6,48 +6,41 @@ const images = await resolveImages();
 
 const headerImg = images.headerFundo;
 
-const zones = [
+const fundos = [
   {
+    code: 'DJ01',
+    title: 'Don Jorge 1',
     img: images.greenFields,
-    title: 'Nuestro Campo',
-    icon: '🌱',
-    desc: 'Más de 1,200 hectáreas fértiles preparadas con dedicación en La Libertad, Perú.'
+    desc: 'Campo con producción combinada de palta Hass y uva de mesa para exportación.',
+    crops: [
+      { name: 'Palta', icon: '🥑' },
+      { name: 'Uva', icon: '🍇' }
+    ]
   },
   {
-    img: images.avocadoOrchard,
-    title: 'Palta Hass',
-    icon: '🥑',
-    desc: 'Huertos de palto con frutos seleccionados de alta calidad para exportación.'
-  },
-  {
+    code: 'DJ02',
+    title: 'Don Jorge 2',
     img: images.vineyard,
-    title: 'Viñedos',
-    icon: '🍇',
-    desc: 'Viñedos con uva Allison de exportación.'
+    desc: 'Segundo fundo con palta y uva, operado con el mismo estándar de calidad y trazabilidad.',
+    crops: [
+      { name: 'Palta', icon: '🥑' },
+      { name: 'Uva', icon: '🍇' }
+    ]
   },
   {
-    img: images.tractor,
-    title: 'Maquinaria',
-    icon: '🚜',
-    desc: 'Equipos modernos para una agricultura de precisión y eficiencia.'
-  },
-  {
-    img: images.irrigation,
-    title: 'Riego',
-    icon: '💧',
-    desc: 'Sistema tecnificado de goteo para el uso óptimo del agua.'
-  },
-  {
-    img: images.workers,
-    title: 'Nuestro equipo',
-    icon: '👨‍🌾',
-    desc: 'Colaboradores capacitados: el alma de cada cosecha.'
+    code: 'DJ03',
+    title: 'Don Jorge 3',
+    img: images.avocadoOrchard,
+    desc: 'Fundo dedicado exclusivamente a palta Hass, con huertos seleccionados de alta calidad.',
+    crops: [
+      { name: 'Palta', icon: '🥑' }
+    ]
   }
 ];
 
 const facts = [
   { label: 'Ubicación', value: 'La Libertad, Perú' },
-  { label: 'Extensión', value: '+1,200 hectáreas' },
+  { label: 'Fundos', value: 'Don Jorge 1, 2 y 3' },
   { label: 'Cultivos', value: 'Palta Hass y Uva Allison' },
   { label: 'Operación', value: 'Todo el año' }
 ];
@@ -81,28 +74,45 @@ const facts = [
         </div>
         <div class="reveal-right" data-delay="100">
           <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10 aspect-[4/3]">
-            <img src={zones[0].img} alt="Vista del fundo Agro Norte Corp" class="w-full h-full object-cover" loading="lazy"/>
+            <img src={fundos[0].img} alt="Vista del fundo Agro Norte Corp" class="w-full h-full object-cover" loading="lazy"/>
           </div>
         </div>
       </div>
 
       <div class="text-center mb-12 md:mb-16 reveal">
-        <span class="section-label">Zonas del fundo</span>
-        <h2 class="section-title mx-auto max-w-3xl">Explora cada área de operación</h2>
+        <span class="section-label">Nuestros fundos</span>
+        <h2 class="section-title mx-auto max-w-3xl">Don Jorge 1, 2 y 3</h2>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-20">
-        {zones.map((z, i) => (
-          <article class="reveal-scale group relative rounded-3xl overflow-hidden shadow-xl shadow-navy-900/10 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700" data-delay={i * 60}>
+        {fundos.map((z, i) => (
+          <article class="reveal-scale group relative rounded-[2rem] overflow-hidden shadow-xl shadow-navy-900/10 hover:-translate-y-2 hover:shadow-2xl transition-all duration-700" data-delay={i * 60}>
             <div class="relative aspect-[4/3] overflow-hidden">
               <img src={z.img} alt={z.title} class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110" loading="lazy"/>
-              <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent"></div>
-              <div class="absolute top-5 left-5 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-2xl">
-                {z.icon}
+              <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/45 to-navy-950/10"></div>
+              <div class="absolute top-5 left-5 right-5 flex items-start justify-between">
+                <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-xs tracking-[0.22em] font-bold">
+                  {z.code}
+                </span>
+                <div class="flex -space-x-2">
+                  {z.crops.map((crop) => (
+                    <span class="w-10 h-10 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center text-xl">
+                      {crop.icon}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div class="absolute bottom-0 left-0 right-0 p-5 md:p-6 text-white">
-                <p class="text-xs tracking-[0.15em] uppercase font-semibold text-olive-300 mb-2">Zona 0{i + 1}</p>
-                <h3 class="font-display text-2xl md:text-3xl font-bold mb-2">{z.title}</h3>
+              <div class="absolute bottom-0 left-0 right-0 p-5 md:p-7 text-white">
+                <p class="text-xs tracking-[0.18em] uppercase font-semibold text-olive-300 mb-2">Fundo {z.code}</p>
+                <h3 class="font-display text-3xl font-bold mb-4">{z.title}</h3>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {z.crops.map((crop) => (
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-olive-500/25 border border-olive-200/30 text-sm font-semibold text-olive-100">
+                      <span>{crop.icon}</span>
+                      {crop.name}
+                    </span>
+                  ))}
+                </div>
                 <p class="text-white/80 font-light text-sm md:text-base">{z.desc}</p>
               </div>
             </div>

@@ -15,29 +15,18 @@ const navLinks = [
 ];
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isHomePage = currentPath === '/';
 function isActive(path: string) {
   if (path === '/') return currentPath === '/';
   return currentPath.startsWith(path);
 }
 ---
 
-<header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out" data-home={isHomePage ? 'true' : 'false'}>
+<header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out">
   <nav class="relative w-full">
-    <div
-      class:list={[
-        "absolute inset-0 transition-all duration-700 nav-bg",
-        isHomePage
-          ? "bg-transparent shadow-none backdrop-blur-none"
-          : "bg-warm-white/95 shadow-md shadow-navy-900/5 backdrop-blur-md"
-      ]}
-    ></div>
+    <div class="absolute inset-0 transition-all duration-700 nav-bg bg-transparent shadow-none backdrop-blur-none"></div>
 
     <div class="relative w-full px-4 sm:px-6 lg:px-8 2xl:px-12">
-      <div class:list={[
-        "flex items-center justify-between transition-all duration-700 nav-height",
-        isHomePage ? "h-20 xl:h-[88px]" : "h-16 md:h-[72px] xl:h-20"
-      ]}>
+      <div class="flex items-center justify-between transition-all duration-700 nav-height h-20 xl:h-[88px]">
         <a href="/" class="flex items-center gap-3 md:gap-4 group min-w-0 shrink-0">
           <img
             src={logoSrc}
@@ -47,14 +36,8 @@ function isActive(path: string) {
             height="48"
           />
           <div class="flex items-center min-w-0">
-            <span class:list={[
-              "font-brand text-sm sm:text-base md:text-lg xl:text-xl font-bold transition-colors duration-700 tracking-[0.04em] uppercase leading-none whitespace-nowrap nav-text-logo",
-              isHomePage ? "text-white" : "text-navy-900"
-            ]}>
-              Agro Norte<span class:list={[
-                "nav-text-sub",
-                isHomePage ? "text-olive-300" : "text-olive-700"
-              ]}> Corp</span> S.A.C.
+            <span class="font-brand text-sm sm:text-base md:text-lg xl:text-xl font-bold transition-colors duration-700 tracking-[0.04em] uppercase leading-none whitespace-nowrap nav-text-logo text-white">
+              Agro Norte<span class="nav-text-sub text-olive-300"> Corp</span> S.A.C.
             </span>
           </div>
         </a>
@@ -67,16 +50,14 @@ function isActive(path: string) {
                 data-active={isActive(link.href) ? 'true' : 'false'}
                 class:list={[
                   "nav-link relative inline-flex px-3 2xl:px-4 py-2.5 text-[12.5px] xl:text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-500 rounded-xl",
-                  isHomePage
-                    ? (isActive(link.href) ? "text-olive-300 bg-white/10" : "text-white/90 hover:text-white hover:bg-white/10")
-                    : (isActive(link.href) ? "text-olive-700 bg-olive-50" : "text-navy-800/80 hover:text-olive-700 hover:bg-olive-50/50")
+                  isActive(link.href) ? "text-olive-300 bg-white/10" : "text-white/90 hover:text-white hover:bg-white/10"
                 ]}
               >
                 {link.name}
                 <span
                   class:list={[
                     "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-[2.5px] rounded-full transition-all duration-500",
-                    isHomePage && isActive(link.href) ? "w-8 bg-olive-300" : isActive(link.href) ? "w-8 bg-olive-600" : "w-0 bg-olive-600 hover:w-8"
+                    isActive(link.href) ? "w-8 bg-olive-300" : "w-0 bg-olive-300"
                   ]}
                 ></span>
               </a>
@@ -89,10 +70,7 @@ function isActive(path: string) {
             href="https://wa.me/51987654321"
             target="_blank"
             rel="noopener"
-            class:list={[
-              "nav-whatsapp hidden xl:inline-flex items-center justify-center w-10 h-10 rounded-full text-white transition-all duration-500 hover:scale-110 hover:shadow-lg hover:shadow-[#25D366]/30",
-              isHomePage ? "bg-white/15 border border-white/25" : "bg-[#25D366]"
-            ]}
+            class="nav-whatsapp hidden xl:inline-flex items-center justify-center w-10 h-10 rounded-full text-white transition-all duration-500 hover:scale-110 hover:shadow-lg hover:shadow-[#25D366]/30 bg-white/15 border border-white/25"
             aria-label="WhatsApp"
           >
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -101,12 +79,7 @@ function isActive(path: string) {
           </a>
           <a
             href="/contacto"
-            class:list={[
-              "nav-cta flex items-center gap-2 px-4 xl:px-6 py-2.5 xl:py-3 rounded-xl text-[12px] xl:text-xs font-bold uppercase tracking-[0.14em] transition-all duration-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-olive-900/30 shadow-md shadow-olive-900/15",
-              isHomePage
-                ? "bg-white hover:bg-olive-50 text-olive-800 hover:text-olive-900"
-                : "bg-olive-700 hover:bg-olive-800 text-white"
-            ]}
+            class="nav-cta flex items-center gap-2 px-4 xl:px-6 py-2.5 xl:py-3 rounded-xl text-[12px] xl:text-xs font-bold uppercase tracking-[0.14em] transition-all duration-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-olive-900/30 shadow-md shadow-olive-900/15 bg-white hover:bg-olive-50 text-olive-800 hover:text-olive-900"
           >
             <svg class="w-4 h-4 xl:w-[18px] xl:h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -115,10 +88,7 @@ function isActive(path: string) {
           </a>
         </div>
 
-          <button id="mobile-menu-btn" class:list={[
-          "lg:hidden p-2 transition-colors duration-700",
-          isHomePage ? "text-white" : "text-navy-900"
-        ]} aria-label="Abrir menú">
+          <button id="mobile-menu-btn" class="lg:hidden p-2 transition-colors duration-700 text-white" aria-label="Abrir menú">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -192,7 +162,6 @@ function isActive(path: string) {
   const navTextSub = navbar?.querySelectorAll('.nav-text-sub');
   const navCta = navbar?.querySelector('.nav-cta');
   const navWhats = navbar?.querySelector('.nav-whatsapp');
-  const isHome = navbar?.dataset.home === 'true';
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const closeMenuBtn = document.getElementById('close-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -200,7 +169,7 @@ function isActive(path: string) {
 
   function updateNavbar() {
     const scrolled = window.scrollY > 40;
-    const applyHeroStyle = isHome && !scrolled;
+    const applyHeroStyle = !scrolled;
 
     if (navBg) {
       const el = navBg as HTMLElement;
@@ -267,6 +236,11 @@ function isActive(path: string) {
       el.classList.toggle('border', applyHeroStyle);
       el.classList.toggle('border-white/25', applyHeroStyle);
       el.classList.toggle('bg-[#25D366]', !applyHeroStyle);
+    }
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.classList.toggle('text-white', applyHeroStyle);
+      mobileMenuBtn.classList.toggle('text-navy-900', !applyHeroStyle);
     }
   }
 

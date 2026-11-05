@@ -1,12 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import ProductStage from '../components/ProductStage.astro';
 import { resolveImages } from '../lib/media';
 const images = await resolveImages();
 
 const headerImg = images.headerProductos;
-const paltaImg = images.palta;
-const uvaImg = images.uva;
 
 const paltaFeatures = [
   { label: 'Variedad', value: 'Hass Premium' },
@@ -14,7 +13,6 @@ const paltaFeatures = [
   { label: 'Cosecha', value: 'Abril - Agosto' },
   { label: 'Brix (dulzor)', value: 'Medio - Alto' },
   { label: 'Textura', value: 'Cremosa, untuosa' },
-  { label: 'Presentaciones', value: 'Cajas 4kg / 10kg' },
   { label: 'Calibres', value: '12, 14, 16, 18, 20, 22, 24' },
   { label: 'Mercados', value: 'EU, EE.UU., Asia' }
 ];
@@ -25,7 +23,6 @@ const uvaFeatures = [
   { label: 'Cosecha', value: 'Enero - Abril' },
   { label: 'Brix (dulzor)', value: 'Alto' },
   { label: 'Textura', value: 'Crujiente y firme' },
-  { label: 'Presentaciones', value: 'Clamshell / Cajas' },
   { label: 'Característica', value: 'Sin semilla' },
   { label: 'Mercados', value: 'EU, EE.UU., Asia' }
 ];
@@ -47,17 +44,22 @@ const beneficios = [
   <section class="relative section-padding bg-gradient-to-b from-warm-white via-cream-50 to-warm-white">
     <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
       <div class="grid md:grid-cols-2 gap-8 lg:gap-10 mb-20">
-        <article class="reveal group rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10">
-          <div class="relative aspect-[16/10] overflow-hidden">
-            <img src={paltaImg} alt="Palta Hass" class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110" loading="lazy"/>
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent"></div>
-            <div class="absolute top-6 left-6 px-5 py-2.5 rounded-full bg-olive-700 text-white text-xs tracking-[0.2em] uppercase font-bold">🥑 PALTA HASS</div>
-            <div class="absolute bottom-6 left-6 right-6 text-white">
-              <h3 class="font-display text-4xl md:text-5xl font-bold mb-2">Palta Hass</h3>
-              <p class="text-white/80 font-light italic">La variedad rey del mercado internacional</p>
-            </div>
-          </div>
-          <div class="p-6 md:p-10 bg-white">
+        <article class="reveal">
+          <ProductStage
+            name="Palta Hass"
+            cutout="/images/palta-hass.png"
+            tone="palta"
+            tagline="La variedad rey del mercado internacional"
+            description="Piel rugosa que oscurece al madurar, pulpa cremosa y sabor equilibrado. Cultivada en el clima del norte del Perú."
+            href="/productos/palta-hass"
+            features={[
+              { label: 'Textura', desc: 'Cremosa' },
+              { label: 'Cosecha', desc: 'Abril – Agosto' },
+              { label: 'Calibres', desc: '12 a 24' },
+              { label: 'Mercados', desc: 'EU, EE.UU., Asia' }
+            ]}
+          />
+          <div class="mt-5 p-6 md:p-10 bg-white rounded-3xl shadow-xl shadow-navy-900/5">
             <p class="text-navy-700/80 font-light leading-relaxed mb-8 text-lg">
               Nuestra palta Hass se distingue por su piel rugosa color morado oscuro al madurar, su pulpa cremosa de color verde intenso y su sabor equilibrado. Cultivada en terrenos con clima ideal.
             </p>
@@ -72,19 +74,24 @@ const beneficios = [
           </div>
         </article>
 
-        <article class="reveal-right group rounded-3xl overflow-hidden shadow-2xl shadow-navy-900/10" data-delay="100">
-          <div class="relative aspect-[16/10] overflow-hidden">
-            <img src={uvaImg} alt="Uva Allison" class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110" loading="lazy"/>
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent"></div>
-            <div class="absolute top-6 left-6 px-5 py-2.5 rounded-full bg-earth-700 text-white text-xs tracking-[0.2em] uppercase font-bold">🍇 UVA ALLISON</div>
-            <div class="absolute bottom-6 left-6 right-6 text-white">
-              <h3 class="font-display text-4xl md:text-5xl font-bold mb-2">Uva Allison</h3>
-              <p class="text-white/80 font-light italic">Dulzor, firmeza y calidad de exportación</p>
-            </div>
-          </div>
-          <div class="p-6 md:p-10 bg-white">
+        <article class="reveal-right" data-delay="100">
+          <ProductStage
+            name="Uva Allison"
+            cutout="/images/uva-allison.png"
+            tone="uva"
+            tagline="Dulzor, firmeza y calidad de exportación"
+            description="Cosechada en el punto óptimo para un racimo uniforme, grano crujiente y dulzor alto en cada envío."
+            href="/productos/uva-allison"
+            features={[
+              { label: 'Textura', desc: 'Crujiente' },
+              { label: 'Cosecha', desc: 'Enero – Abril' },
+              { label: 'Carácter', desc: 'Sin semilla' },
+              { label: 'Mercados', desc: 'EU, EE.UU., Asia' }
+            ]}
+          />
+          <div class="mt-5 p-6 md:p-10 bg-white rounded-3xl shadow-xl shadow-navy-900/5">
             <p class="text-navy-700/80 font-light leading-relaxed mb-8 text-lg">
-              Producimos uva Allison de alta calidad, cosechada en el punto óptimo de maduración para garantizar dulzor, textura crujiente y presentación uniforme en cada envío.
+              Producimos uva Allison de alta calidad, cosechada en el punto óptimo de maduración para garantizar dulzor y textura crujiente en cada envío.
             </p>
             <div class="grid sm:grid-cols-2 gap-4">
               {uvaFeatures.map(f => (
@@ -115,15 +122,19 @@ const beneficios = [
         ))}
       </div>
 
-      <div class="reveal p-8 md:p-12 rounded-3xl bg-gradient-to-br from-olive-700 via-olive-800 to-olive-900 text-white flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 shadow-2xl shadow-olive-900/30">
-        <div class="max-w-2xl text-center md:text-left">
-          <h3 class="font-display text-3xl md:text-4xl font-bold mb-3">¿Quieres cotizar nuestros productos?</h3>
-          <p class="text-white/80 font-light text-lg">Contáctanos para mayor información y disponibilidad de temporada.</p>
+      <div class="reveal p-8 md:p-12 rounded-3xl bg-gradient-to-br from-olive-700 via-olive-800 to-olive-900 text-white shadow-2xl shadow-olive-900/30">
+        <div class="max-w-2xl">
+          <h3 class="font-display text-3xl md:text-4xl font-bold mb-3">Sembramos y exportamos</h3>
+          <p class="text-white/80 font-light text-lg">Cada cultivo tiene su ficha: origen, temporada y destino de exportación.</p>
         </div>
-        <a href="/contacto" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-olive-800 font-bold uppercase tracking-wider text-sm hover:bg-olive-100 hover:-translate-y-1 transition-all duration-500">
-          Solicitar cotización
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="/productos/palta-hass" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-olive-800 font-bold uppercase tracking-wider text-sm hover:bg-olive-100 hover:-translate-y-1 transition-all duration-500">
+            Detalles Palta Hass
+          </a>
+          <a href="/productos/uva-allison" class="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-white font-bold uppercase tracking-wider text-sm hover:bg-white/10 hover:-translate-y-1 transition-all duration-500">
+            Detalles Uva Allison
+          </a>
+        </div>
       </div>
     </div>
   </section>

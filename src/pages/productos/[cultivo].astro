@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { resolveImages, type ImageKey } from '../../lib/media';
+
+const crops = {
+  'palta-hass': {
+    name: 'Palta Hass',
+    eyebrow: 'Palta de exportación',
+    title: 'Palta Hass',
+    subtitle: 'La sembramos en La Libertad y la exportamos en su punto de cosecha.',
+    description: 'Palta Hass de Agro Norte Corp. Cultivo y exportación desde La Libertad, Perú.',
+    imageKey: 'palta' as ImageKey,
+    cutout: '/images/palta-hass.png',
+    tone: 'olive',
+    lead: 'Piel rugosa que oscurece al madurar, pulpa cremosa y sabor equilibrado. El fruto se cosecha en los fundos Don Jorge y sale hacia Europa, Estados Unidos y Asia.',
+    story: 'La Hass se distingue por su piel morado oscuro al madurar, su pulpa verde intenso y su textura untuosa. En Don Jorge 3 el huerto es solo de palta. En Don Jorge 1 y 2 comparte campo con la uva de mesa, con el mismo seguimiento de riego, sanidad y cosecha.',
+    season: 'Abril – Agosto',
+    fundos: ['Don Jorge 1', 'Don Jorge 2', 'Don Jorge 3'],
+    steps: [
+      { title: 'Huerto', text: 'Plantas en terrenos preparados, con riego por goteo y monitoreo de humedad.' },
+      { title: 'Cosecha', text: 'Corte manual entre abril y agosto, cuando el fruto alcanza materia seca y calibre de exportación.' },
+      { title: 'Selección', text: 'Clasificación por calibres 12 a 24 y revisión de piel, firmeza y sanidad.' },
+      { title: 'Exportación', text: 'Cadena de frío y trazabilidad desde el fundo hasta el destino.' }
+    ],
+    specs: [
+      { label: 'Variedad', value: 'Hass Premium' },
+      { label: 'Origen', value: 'La Libertad, Perú' },
+      { label: 'Cosecha', value: 'Abril – Agosto' },
+      { label: 'Textura', value: 'Cremosa, untuosa' },
+      { label: 'Calibres', value: '12, 14, 16, 18, 20, 22, 24' },
+      { label: 'Destino', value: 'Europa, EE.UU., Asia' },
+      { label: 'Labor', value: 'Cosecha manual' }
+    ],
+    notes: ['Omega 3 y 6', 'Más de 20 vitaminas y minerales', 'Alto contenido de fibra', 'Grasas monoinsaturadas'],
+    other: { href: '/productos/uva-allison', label: 'Ver Uva Allison' }
+  },
+  'uva-allison': {
+    name: 'Uva Allison',
+    eyebrow: 'Uva de mesa',
+    title: 'Uva Allison',
+    subtitle: 'Racimos sembrados en el valle y exportados con selección manual.',
+    description: 'Uva Allison de Agro Norte Corp. Cultivo y exportación desde La Libertad, Perú.',
+    imageKey: 'uva' as ImageKey,
+    cutout: '/images/uva-allison.png',
+    tone: 'earth',
+    lead: 'Grano crujiente, sin semilla y de dulzor alto. El racimo se cosecha a mano en Don Jorge 1 y 2 y se prepara para exportación.',
+    story: 'La Allison se corta en el punto de maduración para conservar firmeza, color uniforme y brix alto. El equipo revisa racimo por racimo, con frío desde el fundo hasta el puerto.',
+    season: 'Enero – Abril',
+    fundos: ['Don Jorge 1', 'Don Jorge 2'],
+    steps: [
+      { title: 'Viñedo', text: 'Conducción del parrón, riego tecnificado y seguimiento fenológico en cada campaña.' },
+      { title: 'Cosecha', text: 'Selección manual de enero a abril, con control de brix, color y firmeza del grano.' },
+      { title: 'Selección', text: 'Revisión racimo por racimo para conservar color, firmeza y dulzor uniformes.' },
+      { title: 'Exportación', text: 'Pre-enfriamiento y envío a Europa, Estados Unidos y Asia con lote trazable.' }
+    ],
+    specs: [
+      { label: 'Variedad', value: 'Allison' },
+      { label: 'Origen', value: 'La Libertad, Perú' },
+      { label: 'Cosecha', value: 'Enero – Abril' },
+      { label: 'Textura', value: 'Crujiente y firme' },
+      { label: 'Carácter', value: 'Sin semilla' },
+      { label: 'Dulzor', value: 'Brix alto' },
+      { label: 'Destino', value: 'Europa, EE.UU., Asia' }
+    ],
+    notes: ['Antioxidantes naturales', 'Resveratrol en la piel', 'Vitaminas K, C y B6', 'Energía natural'],
+    other: { href: '/productos/palta-hass', label: 'Ver Palta Hass' }
+  }
+} as const;
+
+const slug = Astro.params.cultivo || '';
+const crop = crops[slug as keyof typeof crops];
+if (!crop) return Astro.redirect('/productos');
+
+const images = await resolveImages([crop.imageKey]);
+const headerImg = images[crop.imageKey];
+---
+
+<BaseLayout title={`${crop.name} | Agro Norte Corp`} description={crop.description}>
+  <PageHeader eyebrow={crop.eyebrow} title={crop.title} subtitle={crop.subtitle} bgImage={headerImg} />
+
+  <section class="section-padding bg-gradient-to-b from-warm-white via-cream-50 to-warm-white">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+      <div class="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-10 lg:gap-16 items-center mb-16 md:mb-20">
+        <div class:list={['reveal rounded-[2rem] p-6 md:p-10', crop.tone === 'earth' ? 'bg-[#efe4f4]' : 'bg-[#f3ead8]']}>
+          <img src={crop.cutout} alt={crop.name} class="w-full max-w-md mx-auto h-auto" width="640" height="640" />
+        </div>
+        <div class="reveal-right">
+          <span class="section-label">Ficha del cultivo</span>
+          <h2 class="section-title mb-5">{crop.name}</h2>
+          <p class="text-lg md:text-xl text-navy-800 font-light leading-relaxed mb-5">{crop.lead}</p>
+          <p class="text-navy-700/80 font-light leading-relaxed mb-8">{crop.story}</p>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-2 rounded-full bg-white border border-navy-900/10 text-sm font-semibold text-navy-800">Temporada {crop.season}</span>
+            {crop.fundos.map((fundo) => (
+              <span class="px-4 py-2 rounded-full bg-white border border-navy-900/10 text-sm font-semibold text-navy-800">{fundo}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16 md:mb-20">
+        {crop.steps.map((step, i) => (
+          <article class="reveal p-6 rounded-3xl bg-white border border-navy-900/5 shadow-lg shadow-navy-900/5" data-delay={i * 80}>
+            <p class="text-xs font-bold tracking-[0.18em] uppercase text-olive-700 mb-3">0{i + 1}</p>
+            <h3 class="font-display text-2xl font-bold text-navy-900 mb-2">{step.title}</h3>
+            <p class="text-navy-700/80 font-light leading-relaxed">{step.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-6 lg:gap-8">
+        <div class="reveal p-6 md:p-10 rounded-3xl bg-white shadow-xl shadow-navy-900/5">
+          <h3 class="font-display text-3xl font-bold text-navy-900 mb-6">Datos de campo y exportación</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {crop.specs.map((spec) => (
+              <div class:list={['flex items-center justify-between gap-4 p-4 rounded-xl border', crop.tone === 'earth' ? 'bg-earth-50/60 border-earth-200' : 'bg-olive-50/60 border-olive-100']}>
+                <span class="text-xs md:text-sm font-semibold text-navy-800 uppercase tracking-wide">{spec.label}</span>
+                <span class:list={['text-sm md:text-base font-bold text-right', crop.tone === 'earth' ? 'text-earth-800' : 'text-olive-700']}>{spec.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="reveal-right p-6 md:p-10 rounded-3xl border border-navy-900/5 bg-white">
+          <h3 class="font-display text-3xl font-bold text-navy-900 mb-6">El fruto</h3>
+          <ul class="space-y-3">
+            {crop.notes.map((note) => (
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-olive-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <span class="text-navy-700/90 font-light">{note}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="mt-8 flex flex-col gap-3">
+            <a href={crop.other.href} class="btn-primary text-center">{crop.other.label}</a>
+            <a href="/proceso" class="btn-outline text-center">Ver el proceso</a>
+            <a href="/productos" class="text-center text-sm font-semibold uppercase tracking-wider text-olive-700 hover:text-olive-800">Volver a productos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
